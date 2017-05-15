@@ -32,5 +32,6 @@
     <modules>
         <module>handler</module>
         <module>buffer</module>
+        <module>common</module>
     </modules>
 </project>
