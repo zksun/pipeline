@@ -31,5 +31,6 @@
 
     <modules>
         <module>handler</module>
+        <module>buffer</module>
     </modules>
 </project>
