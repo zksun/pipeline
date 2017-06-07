@@ -106,7 +106,17 @@ public final class HttpGet extends AbstractHttpGet {
         httpGet.getMethod = new GetMethod(httpGet.createMethodPath(path));
         httpGet.getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(retry, false));
         httpGet.active = true;
+        httpGet.addCache(httpGet);
         return httpGet;
+    }
+
+    private void addCache(HttpGet httpGet) {
+        synchronized (cache) {
+            HttpGet get = cache.get(httpGet.getMethod.getQueryString().trim().toUpperCase());
+            if (null == get) {
+                cache.put(httpGet.getMethod.getQueryString().trim().toUpperCase(), httpGet);
+            }
+        }
     }
 
     private String createMethodPath(String path) {
