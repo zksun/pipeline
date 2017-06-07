@@ -49,5 +49,10 @@
             <artifactId>pipeline-handler</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson-parent</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
