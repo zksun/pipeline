@@ -9,12 +9,16 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zksun on 07/06/2017.
  */
 public final class HttpGet extends AbstractHttpGet {
+
+    private static Map<String, HttpGet> cache = new HashMap<String, HttpGet>();
 
     private List<NameValuePair> parameters;
 
