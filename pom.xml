@@ -66,6 +66,36 @@
                 <version>2.5</version>
             </dependency>
 
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.pipeline</groupId>
+                <artifactId>pipeline-handler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.pipeline</groupId>
+                <artifactId>pipeline-buffer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.pipeline</groupId>
+                <artifactId>pipeline-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.pipeline</groupId>
+                <artifactId>pipeline-slot</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -82,5 +112,6 @@
         <module>handler</module>
         <module>buffer</module>
         <module>common</module>
+        <module>slot</module>
     </modules>
 </project>
