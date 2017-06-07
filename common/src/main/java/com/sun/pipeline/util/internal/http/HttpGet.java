@@ -67,6 +67,7 @@ public final class HttpGet extends AbstractHttpGet {
             throw new NullPointerException("no path");
         }
         this.getMethod.setPath(this.getMethod.getPath() + path);
+        addCache(this);
         return this;
     }
 
