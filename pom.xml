@@ -73,6 +73,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson-parent</artifactId>
                 <version>2.6.1</version>
@@ -119,5 +125,6 @@
         <module>buffer</module>
         <module>common</module>
         <module>slot</module>
+        <module>stock</module>
     </modules>
 </project>
