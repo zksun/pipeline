@@ -91,7 +91,7 @@ public final class HttpGet extends AbstractHttpGet {
         }
     }
 
-    public static HttpGet getHttpGetInstance(String url, int port, int retry) {
+    public static HttpGet getHttpGetInstance(String url, int port, String path, int retry) {
         if (StringUtils.isBlank(url)) {
             throw new NullPointerException("no url");
         }
@@ -99,7 +99,7 @@ public final class HttpGet extends AbstractHttpGet {
         httpGet.url = url;
         httpGet.port = port;
         httpGet.httpClient = new HttpClient();
-        httpGet.getMethod = new GetMethod();
+        httpGet.getMethod = new GetMethod(httpGet.createMethodPath(path));
         httpGet.getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(retry, false));
         httpGet.active = true;
         return httpGet;
@@ -107,7 +107,7 @@ public final class HttpGet extends AbstractHttpGet {
 
     private String createMethodPath(String path) {
         if (!url.startsWith("http://")) {
-            url = "http://" + url + port;
+            url = "http://" + url + ":" + port;
         }
 
         if (StringUtils.isNoneBlank(path)) {
