@@ -47,8 +47,7 @@
         <dependency>
             <groupId>com.sun.pipeline</groupId>
             <artifactId>pipeline-handler</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        
+
     </dependencies>
 </project>
