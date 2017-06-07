@@ -4,6 +4,7 @@ import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +45,7 @@ public final class HttpGet extends AbstractHttpGet {
         return port;
     }
 
-    AbstractHttpGet addParameters(String parameterName, String value) {
+    public HttpGet addParameters(String parameterName, String value) {
         if (StringUtils.isBlank(parameterName) || StringUtils.isBlank(value)) {
             throw new NullPointerException();
         }
@@ -113,9 +114,14 @@ public final class HttpGet extends AbstractHttpGet {
 
     private void addCache(HttpGet httpGet) {
         synchronized (cache) {
-            HttpGet get = cache.get(httpGet.getMethod.getQueryString().trim().toUpperCase());
-            if (null == get) {
-                cache.put(httpGet.getMethod.getQueryString().trim().toUpperCase(), httpGet);
+            try {
+                String uri = httpGet.getMethod.getURI().toString();
+                HttpGet get = cache.get(uri.trim().toUpperCase());
+                if (null == get) {
+                    cache.put(uri.trim().toUpperCase(), httpGet);
+                }
+            } catch (URIException e) {
+                //ignore
             }
         }
     }
