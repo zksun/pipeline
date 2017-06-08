@@ -18,6 +18,8 @@ public interface Container<D, I> {
 
     Container swallow(String s);
 
+    Container swallow(byte[] bytes);
+
     Container swallow(I input);
 
     Container swallow(OutputStream outputStream);

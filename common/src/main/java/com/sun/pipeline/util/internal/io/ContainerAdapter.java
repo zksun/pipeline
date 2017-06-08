@@ -46,5 +46,10 @@ public abstract class ContainerAdapter<D, I> implements Container<D, I> {
         return this;
     }
 
+    @Override
+    public Container swallow(byte[] bytes) {
+        return this;
+    }
+
     protected abstract void add(D data);
 }
