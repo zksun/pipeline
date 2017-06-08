@@ -26,12 +26,14 @@ public interface Factor<R> {
 
     /**
      * 算子中是不是有值
+     *
      * @return
      */
     boolean hasValue();
 
     /**
      * 算子的当前状态
+     *
      * @return
      */
     int status();
