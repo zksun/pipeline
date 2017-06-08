@@ -1,7 +1,7 @@
 package com.sun.pipeline.util.internal.http;
 
 import com.sun.pipeline.handler.info.InformationHandler;
-import com.sun.pipeline.util.internal.GetInfo;
+import com.sun.pipeline.util.GetInfo;
 
 import java.io.IOException;
 import java.util.List;

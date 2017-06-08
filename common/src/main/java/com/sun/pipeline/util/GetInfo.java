@@ -1,4 +1,4 @@
-package com.sun.pipeline.util.internal;
+package com.sun.pipeline.util;
 
 import com.sun.pipeline.handler.info.InformationHandler;
 

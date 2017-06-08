@@ -59,7 +59,7 @@
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
-            <artifactId>gson-parent</artifactId>
+            <artifactId>gson</artifactId>
         </dependency>
 
     </dependencies>
