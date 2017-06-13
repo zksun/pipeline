@@ -11,7 +11,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by zksun on 16/05/2017.
@@ -35,20 +37,31 @@ public class FileTest {
 
         while (fileIterator.hasNext()) {
             File next = fileIterator.next();
+            List<String> allLine = new ArrayList<>();
+            String newFileName = next.getName().split("\\.")[0] + "." + "csv";
+            File file = new File("/Users/hanshou/Downloads/sh600352/" + newFileName);
             try {
-
                 FileInputStream fileInputStream = FileUtils.openInputStream(next);
                 byte[] buf = new byte[16];
                 while (-1 != fileInputStream.read(buf)) {
+                    StringBuilder line = new StringBuilder();
                     ByteBuffer byteBuffer = ByteBuffer.wrap(buf);
                     byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-                    int sequence = getRealSequence(byteBuffer.getShort());
-                    int price = byteBuffer.getInt();
-                    int tradeLot = byteBuffer.getInt();
-                    int traceNum = byteBuffer.getInt();
-                    int bs = byteBuffer.getShort();
-                    logger.info("the sequence is: {}, and the price is: {}, and the tradeLot is: {}, " +
-                            " the tradeNum is: {}, and the bs is: {} ", sequence, price, tradeLot, traceNum, bs);
+                    line.append(getRealSequence(byteBuffer.getShort()));
+                    line.append(",");
+                    line.append(byteBuffer.getInt());
+                    line.append(",");
+                    line.append(byteBuffer.getInt());
+                    line.append(",");
+                    line.append(byteBuffer.getInt());
+                    line.append(",");
+                    line.append(byteBuffer.getShort());
+//                    logger.info("the sequence is: {}, and the price is: {}, and the tradeLot is: {}, " +
+//                            " the tradeNum is: {}, and the bs is: {} ", sequence, price, tradeLot, traceNum, bs);
+                    allLine.add(line.toString());
+                }
+                if (allLine.size() > 0) {
+                    FileUtils.writeLines(file, allLine);
                 }
             } catch (IOException e) {
                 //ignore
