@@ -44,6 +44,6 @@ public abstract class ContainerAdapter<D, I> implements Container<D, I> {
         return this;
     }
 
-    protected abstract void add(D data);
+    protected abstract void add(I data);
 
 }

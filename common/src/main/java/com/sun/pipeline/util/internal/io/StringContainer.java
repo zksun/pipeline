@@ -3,7 +3,7 @@ package com.sun.pipeline.util.internal.io;
 /**
  * Created by zksun on 08/06/2017.
  */
-public abstract class StringContainer<D> extends ContainerAdapter<D, Object> {
+public abstract class StringContainer<D> extends ContainerAdapter<D, String> {
 
     @Override
     public Container swallow(String s) {
@@ -11,5 +11,5 @@ public abstract class StringContainer<D> extends ContainerAdapter<D, Object> {
         return this;
     }
 
-    abstract D convert(String s);
+    protected abstract String convert(String s);
 }

@@ -1,5 +1,9 @@
 package com.sun.pipeline.util.internal.io;
 
+import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,22 +11,32 @@ import java.util.List;
  */
 public class JsonContainer<D, L extends List<D>> extends StringContainer<L> {
 
-    private List<D> jsons;
+    private L jsons;
 
     @Override
-    L convert(String s) {
+    protected String convert(String s) {
         return null;
     }
 
     @Override
-    protected void add(L data) {
-        for (D d : data) {
-            jsons.add(d);
+    protected void add(String data) {
+
+        if (StringUtils.isBlank(data)) {
+            throw new NullPointerException("json string is null");
+        }
+        synchronized (this) {
+            if (null == jsons) {
+                jsons = (L) new ArrayList<D>();
+            }
+            Gson gson = new Gson();
+            //gson.fromJson(data,D.class);
+            //jsons.add();
         }
     }
 
     @Override
     public L getData() {
-        return (L) jsons;
+        return null;
     }
+
 }
