@@ -9,13 +9,6 @@ import java.io.OutputStream;
  */
 public abstract class ContainerAdapter<D, I> implements Container<D, I> {
 
-    protected D data;
-
-    @Override
-    public D getData() {
-        return data;
-    }
-
     @Override
     public Container swallow(Container container) {
         return this;
@@ -52,4 +45,5 @@ public abstract class ContainerAdapter<D, I> implements Container<D, I> {
     }
 
     protected abstract void add(D data);
+
 }
