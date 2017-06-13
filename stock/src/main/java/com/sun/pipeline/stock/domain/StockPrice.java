@@ -1,7 +1,5 @@
 package com.sun.pipeline.stock.domain;
 
-import com.sun.pipeline.stock.Time;
-
 import java.util.List;
 
 /**
@@ -9,8 +7,31 @@ import java.util.List;
  */
 public class StockPrice {
 
-    private Time time;
+    private Stock stock;
+    private TimeDomain time;
     private List<Integer> prices;
 
+    public Stock getStock() {
+        return stock;
+    }
 
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
+    public TimeDomain getTime() {
+        return time;
+    }
+
+    public void setTime(TimeDomain time) {
+        this.time = time;
+    }
+
+    public List<Integer> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Integer> prices) {
+        this.prices = prices;
+    }
 }

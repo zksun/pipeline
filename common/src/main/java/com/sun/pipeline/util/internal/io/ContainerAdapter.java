@@ -21,7 +21,7 @@ public abstract class ContainerAdapter<D, I> implements Container<D, I> {
 
     @Override
     public Container swallow(File file) {
-        return null;
+        return this;
     }
 
     @Override

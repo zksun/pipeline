@@ -9,7 +9,7 @@ public abstract class OutputStreamContainer<D> extends ContainerAdapter<D, Objec
 
     @Override
     public Container swallow(OutputStream outputStream) {
-        this.data = convert(outputStream);
+        add(convert(outputStream));
         return this;
     }
 
