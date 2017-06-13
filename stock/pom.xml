@@ -11,5 +11,10 @@
 
     <artifactId>stock</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.pipeline</groupId>
+            <artifactId>pipeline-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>
