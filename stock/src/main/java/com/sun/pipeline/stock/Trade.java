@@ -9,11 +9,10 @@ public enum Trade {
     private String name;
     private int code;
 
-    Trade(String name, int code) {
+    Trade(int code, String name) {
         this.name = name;
         this.code = code;
     }
-
 
 
 }
