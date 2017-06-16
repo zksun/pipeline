@@ -14,9 +14,7 @@ import java.util.Map;
  */
 public final class TypeParameterTypeFinder {
 
-    private final static Object LOCK = new Object();
-
-    private static boolean ACTIVE;
+    private static Boolean ACTIVE = false;
 
     private Map<Class<?>, Class<?>> typeParameterTypeGetCache;
 
@@ -46,7 +44,7 @@ public final class TypeParameterTypeFinder {
         if (ACTIVE) {
             return slowTypeParameterTypeFinder;
         }
-        synchronized (LOCK) {
+        synchronized (ACTIVE) {
             if (null == slowTypeParameterTypeFinder) {
                 slowTypeParameterTypeFinder = new TypeParameterTypeFinder();
                 ACTIVE = true;
