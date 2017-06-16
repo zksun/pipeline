@@ -14,6 +14,10 @@ import java.util.Map;
  */
 public final class TypeParameterTypeFinder {
 
+    private final static Object LOCK = new Object();
+
+    private static boolean ACTIVE;
+
     private Map<Class<?>, Class<?>> typeParameterTypeGetCache;
 
     private Map<Class<?>, Map<String, Class<?>>> typeParameterTypeFindCache;
@@ -38,6 +42,19 @@ public final class TypeParameterTypeFinder {
         return cache;
     }
 
+    public static TypeParameterTypeFinder getTypeMatcherFinder() {
+        if (ACTIVE) {
+            return slowTypeParameterTypeFinder;
+        }
+        synchronized (LOCK) {
+            if (null == slowTypeParameterTypeFinder) {
+                slowTypeParameterTypeFinder = new TypeParameterTypeFinder();
+                ACTIVE = true;
+            }
+        }
+        return slowTypeParameterTypeFinder;
+    }
+
     private Class<?> get(final Class<?> parameterType) {
         final Map<Class<?>, Class<?>> getCache = typeParameterTypeGetCache();
         Class<?> matcher = getCache.get(parameterType);
@@ -56,7 +73,7 @@ public final class TypeParameterTypeFinder {
         return matcher;
     }
 
-    private Class<?> find(final Object object, final Class<?> parameterizedSuperclass, final String typeParamName) {
+    public Class<?> find(final Object object, final Class<?> parameterizedSuperclass, final String typeParamName) {
         final Map<Class<?>, Map<String, Class<?>>> findCache = getTypeParameterTypeFindCache();
         final Class<?> thisClass = object.getClass();
 
