@@ -151,7 +151,9 @@ public final class TypeParameterTypeFinder {
                 return fail(thisClass, typeParamName);
             }
             currentClass = currentClass.getSuperclass();
-
+            if (null == currentClass) {
+                return fail(this.getClass(), typeParamName);
+            }
         }
     }
 
