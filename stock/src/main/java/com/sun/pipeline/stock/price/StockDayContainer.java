@@ -1,5 +1,6 @@
 package com.sun.pipeline.stock.price;
 
+import com.sun.pipeline.stock.Authority;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.exception.StockException;
@@ -15,12 +16,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sun.pipeline.stock.Authority.FORWARD_ANSWER_AUTHORITY;
 import static com.sun.pipeline.stock.StockUtil.getRealSequence;
 
 /**
  * Created by zksun on 13/06/2017.
  */
 public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object> {
+
+    private Authority authority;
 
     private Stock stock;
 
@@ -31,6 +35,13 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
     public StockDayContainer(Stock stock, LocalDate dateTime) {
         this.stock = stock;
         this.dateTime = dateTime;
+        this.authority = FORWARD_ANSWER_AUTHORITY;
+    }
+
+    public StockDayContainer(Stock stock, LocalDate dateTime, Authority authority) {
+        this.stock = stock;
+        this.dateTime = dateTime;
+        this.authority = authority;
     }
 
     @Override
