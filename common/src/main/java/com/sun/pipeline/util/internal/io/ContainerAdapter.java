@@ -7,7 +7,7 @@ import java.io.OutputStream;
 /**
  * Created by zksun on 08/06/2017.
  */
-public abstract class ContainerAdapter<D, I> implements Container<D, I> {
+public abstract class ContainerAdapter<D, I> implements Container<I> {
 
     @Override
     public Container swallow(Container container) {
@@ -44,6 +44,8 @@ public abstract class ContainerAdapter<D, I> implements Container<D, I> {
         return this;
     }
 
-    protected abstract void add(I data);
+    protected abstract void add(D data);
+
+    protected abstract Object getData();
 
 }

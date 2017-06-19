@@ -7,8 +7,7 @@ import java.io.OutputStream;
 /**
  * Created by zksun on 08/06/2017.
  */
-public interface Container<D, I> {
-    D getData();
+public interface Container<I> {
 
     Container swallow(Container container);
 

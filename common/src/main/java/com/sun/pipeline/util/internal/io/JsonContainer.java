@@ -1,6 +1,7 @@
 package com.sun.pipeline.util.internal.io;
 
 import com.google.gson.Gson;
+import com.sun.pipeline.util.TypeParameterTypeFinder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -9,34 +10,41 @@ import java.util.List;
 /**
  * Created by zksun on 13/06/2017
  */
-public class JsonContainer<D, L extends List<D>> extends StringContainer<L> {
+public abstract class JsonContainer<D, R extends List<D>> extends StringContainer<D> {
 
-    private L jsons;
+    private R jsons;
 
-    @Override
-    protected String convert(String s) {
-        return null;
+    private Class _self;
+
+    public JsonContainer() {
+        this._self = TypeParameterTypeFinder.getTypeMatcherFinder().find(this, JsonContainer.class, "D");
     }
 
     @Override
-    protected void add(String data) {
+    protected D convert(String s) {
+        if (StringUtils.isBlank(s)) {
+            throw new NullPointerException("json string is null");
+        }
+        Gson gson = new Gson();
+        return (D) gson.fromJson(s, _self);
+    }
 
-        if (StringUtils.isBlank(data)) {
+    @Override
+    protected void add(D data) {
+
+        if (null == data) {
             throw new NullPointerException("json string is null");
         }
         synchronized (this) {
             if (null == jsons) {
-                jsons = (L) new ArrayList<D>();
+                jsons = (R) new ArrayList();
             }
-            Gson gson = new Gson();
-            //gson.fromJson(data,D.class);
-            //jsons.add();
+            jsons.add(data);
         }
     }
 
-    @Override
-    public L getData() {
-        return null;
+    public R getData() {
+        return jsons;
     }
 
 }
