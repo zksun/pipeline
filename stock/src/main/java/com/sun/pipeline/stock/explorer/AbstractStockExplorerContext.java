@@ -6,7 +6,7 @@ import com.sun.pipeline.util.internal.http.AbstractHttpGet;
 /**
  * Created by zksun on 19/06/2017.
  */
-public abstract class AbstractStockExplorerContext implements ExplorerContext {
+public abstract class AbstractStockExplorerContext<V> implements ExplorerContext<AbstractHttpGet,V> {
 
 
     final static String GET_KLINE_INFO = "GET_KLINE_INFO";
@@ -14,15 +14,10 @@ public abstract class AbstractStockExplorerContext implements ExplorerContext {
     private AbstractHttpGet httpGet;
 
     @Override
-    public ExplorerContext fireGetInfo(GetInfo get) {
+    public ExplorerContext fireGetInfo(AbstractHttpGet get) {
         if (null == get) {
             throw new NullPointerException("no info get");
         }
-
-        if (!(get instanceof AbstractHttpGet)) {
-            throw new NullPointerException("now only support http get");
-        }
-
         this.httpGet = (AbstractHttpGet) get;
         fireInformationHandler(fireHttpGetInformationName());
         return this;

@@ -1,20 +1,35 @@
 package com.sun.pipeline.stock.explorer.sohu;
 
+import com.sun.pipeline.handler.info.InformationHandler;
 import com.sun.pipeline.stock.StockKlineStep;
+import com.sun.pipeline.stock.explorer.AbstractStockExplorerContext;
 import com.sun.pipeline.stock.explorer.ExplorerContext;
-import com.sun.pipeline.stock.explorer.sohu.SohuStockExplorerContext.StockContext;
 
 import java.time.LocalDate;
 
 /**
  * Created by zksun on 19/06/2017.
  */
-public final class SohuStockExplorerContext implements ExplorerContext<StockContext> {
-
+public final class SohuStockExplorerContext extends AbstractStockExplorerContext {
 
 
     @Override
-    public StockContext getContext() {
+    protected String fireHttpGetInformationName() {
+        return null;
+    }
+
+    @Override
+    public ExplorerContext fireInformationHandler(String name) {
+        return null;
+    }
+
+    @Override
+    public void registerInformationHandler(String name, InformationHandler informationHandler) {
+
+    }
+
+    @Override
+    public Object getValue() {
         return null;
     }
 
