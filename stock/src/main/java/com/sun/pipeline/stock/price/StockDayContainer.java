@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +24,13 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
 
     private Stock stock;
 
-    private LocalDateTime dateTime;
+    private LocalDate dateTime;
 
     private List<StockPrice> prices;
 
-    public StockDayContainer(Stock stock, LocalDateTime localDateTime) {
+    public StockDayContainer(Stock stock, LocalDate dateTime) {
         this.stock = stock;
-        this.dateTime = localDateTime;
+        this.dateTime = dateTime;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             throw new NullPointerException("no file");
         }
         if (file.isDirectory()) {
-            throw new IllegalArgumentException("file is a diectory");
+            throw new IllegalArgumentException("file is a directory");
         }
         if (!file.canRead()) {
             throw new IllegalArgumentException("file can not read");
@@ -81,8 +81,8 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
                 int handNum = allocate.getInt();
                 int source = allocate.getInt();
                 short buyOrSell = allocate.getShort();
-
-
+                StockPrice stockPrice = new StockPrice();
+                list.add(stockPrice);
             }
         } catch (Exception e) {
             throw new StockException("convert stock price error");
