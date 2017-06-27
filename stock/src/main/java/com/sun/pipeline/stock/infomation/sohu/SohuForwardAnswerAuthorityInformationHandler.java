@@ -1,4 +1,4 @@
-package com.sun.pipeline.stock.infomation;
+package com.sun.pipeline.stock.infomation.sohu;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,11 +21,8 @@ public class SohuForwardAnswerAuthorityInformationHandler implements Information
             throw new NullPointerException("");
         }
 
-        Map<String, Object> map = new Gson().fromJson(value, new TypeToken<Map<String, Object>>() {
-        }.getType());
 
-        String stockCode = (String) map.get("code");
-        List<List<String>> dataList = (List<List<String>>) map.get("div");
+
 
 
 
