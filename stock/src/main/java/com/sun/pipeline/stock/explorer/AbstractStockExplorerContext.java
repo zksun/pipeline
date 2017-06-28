@@ -27,11 +27,17 @@ public abstract class AbstractStockExplorerContext<V> implements ExplorerContext
         return this;
     }
 
-    protected abstract String fireHttpGetInformationName();
-
-    public void registerInformationHandler() {
-
+    @Override
+    public void registerInformationHandler(InformationHandler informationHandler) {
+        synchronized (handlerMap) {
+            if (handlerMap.containsKey(informationHandler.getName())) {
+                return;
+            }
+            handlerMap.put(informationHandler.getName(), informationHandler);
+        }
     }
+
+    protected abstract String fireHttpGetInformationName();
 
 
 }

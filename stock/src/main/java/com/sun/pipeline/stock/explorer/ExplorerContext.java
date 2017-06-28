@@ -12,7 +12,7 @@ public interface ExplorerContext<G extends GetInfo, V> {
 
     ExplorerContext fireInformationHandler(String name);
 
-    void registerInformationHandler(String name, InformationHandler informationHandler);
+    void registerInformationHandler(InformationHandler informationHandler);
 
     V getValue();
 

@@ -24,10 +24,7 @@ public final class SohuStockExplorerContext extends AbstractStockExplorerContext
         return null;
     }
 
-    @Override
-    public void registerInformationHandler(String name, InformationHandler informationHandler) {
 
-    }
 
     @Override
     public Object getValue() {
