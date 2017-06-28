@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public final class SohuStockExplorerContext extends AbstractStockExplorerContext {
 
 
+
     @Override
     protected String fireHttpGetInformationName() {
         return null;
@@ -33,13 +34,13 @@ public final class SohuStockExplorerContext extends AbstractStockExplorerContext
         return null;
     }
 
-    public static class StockContext {
+    public static class StockQuery {
         private String stockCode;
         private StockKlineStep stockKlineStep;
         private LocalDate start;
         private int limit;
 
-        public StockContext(String stockCode, StockKlineStep stockKlineStep, LocalDate start, int limit) {
+        public StockQuery(String stockCode, StockKlineStep stockKlineStep, LocalDate start, int limit) {
             this.stockCode = stockCode;
             this.stockKlineStep = stockKlineStep;
             this.start = start;
