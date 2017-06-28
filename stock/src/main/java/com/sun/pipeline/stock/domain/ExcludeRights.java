@@ -14,6 +14,10 @@ public class ExcludeRights {
     private LocalDate adjustDay;
     private String stockCode;
 
+    public ExcludeRights(String stockCode) {
+        this.stockCode = stockCode;
+    }
+
     public Long getDistribute() {
         return distribute;
     }
