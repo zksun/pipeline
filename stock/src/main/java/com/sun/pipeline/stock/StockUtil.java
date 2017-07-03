@@ -1,7 +1,7 @@
 package com.sun.pipeline.stock;
 
 /**
- * Created by hanshou on 19/06/2017.
+ * Created by zksun on 19/06/2017.
  */
 public final class StockUtil {
 
@@ -11,6 +11,13 @@ public final class StockUtil {
         } else {
             return source - 660;
         }
+    }
+
+    public static String getRealStockCode(String code) {
+        if (code.split("_").length > 1) {
+            return code.substring(3, code.length());
+        }
+        return code;
     }
 
     private StockUtil() {

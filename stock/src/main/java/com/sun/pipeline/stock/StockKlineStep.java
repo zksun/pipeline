@@ -9,7 +9,7 @@ public enum StockKlineStep implements Time {
 
 
     public String getTime() {
-        return null;
+        return time;
     }
 
     private int sequence;
@@ -19,4 +19,10 @@ public enum StockKlineStep implements Time {
         this.sequence = sequence;
         this.time = time;
     }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.sun.pipeline.util;
+package com.sun.pipeline.util.reflect;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;

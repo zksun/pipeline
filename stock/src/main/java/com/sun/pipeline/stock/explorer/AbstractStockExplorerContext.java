@@ -13,8 +13,6 @@ public abstract class AbstractStockExplorerContext<V> implements ExplorerContext
 
     private Map<String, InformationHandler> handlerMap = new HashMap<>();
 
-    final static String GET_KLINE_INFO = "GET_KLINE_INFO";
-
     private AbstractHttpGet httpGet;
 
     @Override

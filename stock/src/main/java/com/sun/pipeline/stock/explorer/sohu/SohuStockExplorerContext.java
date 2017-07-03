@@ -1,6 +1,5 @@
 package com.sun.pipeline.stock.explorer.sohu;
 
-import com.sun.pipeline.handler.info.InformationHandler;
 import com.sun.pipeline.stock.StockKlineStep;
 import com.sun.pipeline.stock.explorer.AbstractStockExplorerContext;
 import com.sun.pipeline.stock.explorer.ExplorerContext;
@@ -12,8 +11,6 @@ import java.time.LocalDate;
  */
 public final class SohuStockExplorerContext extends AbstractStockExplorerContext {
 
-
-
     @Override
     protected String fireHttpGetInformationName() {
         return null;
@@ -23,7 +20,6 @@ public final class SohuStockExplorerContext extends AbstractStockExplorerContext
     public ExplorerContext fireInformationHandler(String name) {
         return null;
     }
-
 
 
     @Override
@@ -43,6 +39,5 @@ public final class SohuStockExplorerContext extends AbstractStockExplorerContext
             this.start = start;
             this.limit = limit;
         }
-
     }
 }

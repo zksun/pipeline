@@ -1,6 +1,6 @@
 package com.sun.pipeline.reflect;
 
-import com.sun.pipeline.util.TypeParameterTypeFinder;
+import com.sun.pipeline.util.reflect.TypeParameterTypeFinder;
 import com.sun.pipeline.util.internal.io.JsonContainer;
 import org.junit.Test;
 

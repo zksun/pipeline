@@ -1,7 +1,7 @@
 package com.sun.pipeline.util.internal.io;
 
 import com.google.gson.Gson;
-import com.sun.pipeline.util.TypeParameterTypeFinder;
+import com.sun.pipeline.util.reflect.TypeParameterTypeFinder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
