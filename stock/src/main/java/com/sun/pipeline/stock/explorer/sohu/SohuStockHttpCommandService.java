@@ -32,6 +32,7 @@ public final class SohuStockHttpCommandService {
     private String INFO_ADJUST_PARAM = "dr";
     private String INFO_STAR_DAY_PARAM = "date";
     private String DEFAULT_ADJUST = "0";
+    private String ADJUST = "";
 
     public static SohuStockHttpCommandService getInstance() {
         if (null == sohuStockHttpCommandService) {
@@ -72,7 +73,7 @@ public final class SohuStockHttpCommandService {
                 .addParameters(INFO_CODE_PARAM, stockCode)
                 .addParameters(INFO_SET_PARAM, DEFAULT_LOCAL)
                 .addParameters(INFO_PERIOD_PARAM, time.getTime())
-                .addParameters(INFO_ADJUST_PARAM, adjust == true ? "1" : "0");
+                .addParameters(INFO_ADJUST_PARAM, adjust == true ? ADJUST : DEFAULT_ADJUST);
         List<KlineItem> response = null;
         try {
             response = httpGet.getResponseByStringParameter(Contants.kLineInformationHandler);
