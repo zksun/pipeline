@@ -128,7 +128,6 @@ public final class SohuStockHttpCommandService {
             return excludeRightses;
         }
 
-
         return Collections.EMPTY_LIST;
     }
 
