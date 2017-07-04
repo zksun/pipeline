@@ -2,6 +2,7 @@ package com.sun.pipeline.stock;
 
 import com.sun.pipeline.handler.info.InformationHandler;
 import com.sun.pipeline.stock.domain.KlineItem;
+import com.sun.pipeline.stock.infomation.sohu.SohuForwardAnswerAuthorityInformationHandler;
 import com.sun.pipeline.stock.infomation.sohu.SohuKlineInformationHandler;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
@@ -15,6 +16,7 @@ public final class Contants {
 
 
     public final static SohuKlineInformationHandler kLineInformationHandler = new SohuKlineInformationHandler();
+    public final static SohuForwardAnswerAuthorityInformationHandler excludeRightsHandler = new SohuForwardAnswerAuthorityInformationHandler();
     private Contants() {
     }
 }
