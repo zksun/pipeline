@@ -40,10 +40,13 @@ public class SohuExludeRightsContainer extends StringContainer<List<ExcludeRight
 
     @Override
     protected synchronized void add(List<ExcludeRights> data) {
-        if (null == data) {
-            throw new UnsupportedOperationException();
+        if (null == data || data.isEmpty()) {
+            throw new NullPointerException();
         }
-        this.data = data;
+        if (null == data) {
+            data = new ArrayList<>();
+        }
+        this.data.addAll(data);
     }
 
     @Override
