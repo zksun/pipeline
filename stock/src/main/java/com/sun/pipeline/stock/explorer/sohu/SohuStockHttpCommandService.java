@@ -5,6 +5,7 @@ import com.sun.pipeline.stock.Time;
 import com.sun.pipeline.stock.domain.ExcludeRights;
 import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.util.internal.http.HttpGet;
+import com.sun.pipeline.util.internal.logging.InternalLoggerFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
