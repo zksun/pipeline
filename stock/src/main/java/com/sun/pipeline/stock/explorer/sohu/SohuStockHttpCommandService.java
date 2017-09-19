@@ -24,7 +24,6 @@ import static com.sun.pipeline.stock.StockUtil.getRealStockCode;
  * Created by zksun on 2017/6/29.
  */
 public final class SohuStockHttpCommandService {
-
     private static SohuStockHttpCommandService sohuStockHttpCommandService;
 
     private String DEFAULT_LOCAL = "cn";

@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sun.pipeline.stock.domain.ExcludeRights;
 import com.sun.pipeline.util.internal.io.StringContainer;
+import com.sun.pipeline.util.internal.logging.InternalLogger;
+import com.sun.pipeline.util.internal.logging.InternalLoggerFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -15,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by zksun on 2017/6/27.
  */
 public class SohuExludeRightsContainer extends StringContainer<List<ExcludeRights>> {
-
-
+    private final static InternalLogger logger = InternalLoggerFactory.getInstance(SohuExludeRightsContainer.class.getName());
     private List<ExcludeRights> data;
 
     @Override
@@ -43,8 +45,8 @@ public class SohuExludeRightsContainer extends StringContainer<List<ExcludeRight
         if (null == data || data.isEmpty()) {
             throw new NullPointerException();
         }
-        if (null == data) {
-            data = new ArrayList<>();
+        if (null == this.data) {
+            this.data = new ArrayList<>();
         }
         this.data.addAll(data);
     }
@@ -70,7 +72,6 @@ public class SohuExludeRightsContainer extends StringContainer<List<ExcludeRight
             excludeRights.setAdjustDay(adjustDay);
             excludeRights.setAllotmentStock(NumberUtils.toInt(strings[1].trim()));
             if (excludeRights.getAllotmentPrice() > 0) {
-                //计算一个21天平均价
             } else {
                 excludeRights.setAllotmentPrice(0L);
             }
