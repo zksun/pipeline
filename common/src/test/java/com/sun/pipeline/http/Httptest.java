@@ -39,7 +39,7 @@ public class HttpTest {
     public void HttpQueryTest() {
         HttpGet httpGetInstance = HttpGet.getHttpGetInstance("http://q.stock.sohu.com", 80, "/qp/hq", 3);
         httpGetInstance.addParameters(INFO_TYPE_PARAM, INFO_KLINE_VALUE)
-                .addParameters(INFO_CODE_PARAM, "600652")
+                .addParameters(INFO_CODE_PARAM, "601688")
                 .addParameters(INFO_SET_PARAM, DEFAULT_LOCAL)
                 .addParameters(INFO_PERIOD_PARAM, "day").addParameters(INFO_ADJUST_PARAM, "0");
         try {
@@ -48,7 +48,7 @@ public class HttpTest {
             Map<String, Object> jsonObj = new Gson().fromJson(adjust, new TypeToken<Map<String, Object>>() {
             }.getType());
 
-            System.out.println();
+            System.out.println(jsonObj);
         } catch (IOException e) {
             e.printStackTrace();
         }

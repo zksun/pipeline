@@ -65,4 +65,16 @@ public class ExcludeRights {
     public void setStockCode(String stockCode) {
         this.stockCode = stockCode;
     }
+
+    @Override
+    public String toString() {
+        return "ExcludeRights{" +
+                "distribute=" + distribute +
+                ", exchangeStock=" + exchangeStock +
+                ", allotmentStock=" + allotmentStock +
+                ", allotmentPrice=" + allotmentPrice +
+                ", adjustDay=" + adjustDay +
+                ", stockCode='" + stockCode + '\'' +
+                '}';
+    }
 }

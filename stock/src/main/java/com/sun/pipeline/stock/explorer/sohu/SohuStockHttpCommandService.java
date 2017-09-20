@@ -23,6 +23,7 @@ import static com.sun.pipeline.stock.StockUtil.getRealStockCode;
  * Created by zksun on 2017/6/29.
  */
 public final class SohuStockHttpCommandService {
+
     private static SohuStockHttpCommandService sohuStockHttpCommandService;
 
     private String DEFAULT_LOCAL = "cn";
@@ -102,15 +103,12 @@ public final class SohuStockHttpCommandService {
 
     }
 
-    public List<ExcludeRights> getExcludeRightsInfo(HttpGet httpGet, String stockCode, Time time) {
+    public List<ExcludeRights> getExcludeRightsInfo(HttpGet httpGet, String stockCode) {
         if (null == httpGet) {
             throw new NullPointerException("http get is necessay");
         }
         if (StringUtils.isBlank(stockCode)) {
             throw new NullPointerException("stock code is necessary");
-        }
-        if (null == time) {
-            throw new NullPointerException("time is null");
         }
 
         stockCode = getRealStockCode(stockCode);
@@ -120,7 +118,7 @@ public final class SohuStockHttpCommandService {
             excludeRightses = httpGet.addParameters(INFO_TYPE_PARAM, INFO_KLINE_VALUE)
                     .addParameters(INFO_CODE_PARAM, stockCode)
                     .addParameters(INFO_SET_PARAM, DEFAULT_LOCAL)
-                    .addParameters(INFO_PERIOD_PARAM, time.getTime())
+                    .addParameters(INFO_PERIOD_PARAM, StockKlineStep.DAY.getTime())
                     .addParameters(INFO_ADJUST_PARAM, DEFAULT_ADJUST).getResponseByStringParameter(excludeRightsHandler);
         } catch (IOException e) {
             // TODO: 2017/7/4 take log
