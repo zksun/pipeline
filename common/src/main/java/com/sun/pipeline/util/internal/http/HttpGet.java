@@ -97,6 +97,14 @@ public final class HttpGet extends AbstractHttpGet {
         }
     }
 
+    /**
+     *
+     * @param url   prefix url
+     * @param port  address port
+     * @param path  query url
+     * @param retry retry time
+     * @return
+     */
     public static HttpGet getHttpGetInstance(String url, int port, String path, int retry) {
         if (StringUtils.isBlank(url)) {
             throw new NullPointerException("no url");

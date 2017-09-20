@@ -5,7 +5,6 @@ import com.sun.pipeline.stock.Time;
 import com.sun.pipeline.stock.domain.ExcludeRights;
 import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.util.internal.http.HttpGet;
-import com.sun.pipeline.util.internal.logging.InternalLoggerFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -85,8 +84,8 @@ public final class SohuStockHttpCommandService {
 
         if (null != date) {
             DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
-            httpGet = httpGet.addParameters(INFO_STAR_DAY_PARAM, yyyyMMdd.format(date));
-            httpGet.addParameters(INFO_COUNT_PARAM, String.valueOf(count));
+            httpGet = httpGet.addParameters(INFO_STAR_DAY_PARAM, yyyyMMdd.format(date))
+                    .addParameters(INFO_COUNT_PARAM, String.valueOf(count));
         }
 
         List<KlineItem> response = null;
