@@ -2,33 +2,43 @@ package com.sun.pipeline.stock.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Collections.sort;
 
 /**
  * Created by zksun on 2017/9/21.
  */
-public class ExcludeRightsWrapper {
+public final class ExcludeRightsWrapper {
+
+    private final static Map<String, ExcludeRightsWrapper> cache = new HashMap<>();
 
     private final List<ExcludeRights> excludeRightses;
 
-    public ExcludeRightsWrapper(List<ExcludeRights> list) {
+    public static ExcludeRightsWrapper getInstance(List<ExcludeRights> list) {
         if (null == list) {
-            throw new NullPointerException("list empty");
+            throw new NullPointerException("list");
         }
+        String stockCode = getStockCode(list);
+        if (cache.containsKey(stockCode)) {
+            return cache.get(stockCode);
+        }
+        cache.put(stockCode, new ExcludeRightsWrapper(list));
+        return cache.get(stockCode);
+    }
+
+    private static String getStockCode(List<ExcludeRights> list) {
+        return list.get(0).getStockCode();
+    }
+
+
+    private ExcludeRightsWrapper(List<ExcludeRights> list) {
         this.excludeRightses = list;
         sortList();
     }
 
     private void sortList() {
         sort(excludeRightses, new ExcludeRightsComparator());
-    }
-
-    public List<ExcludeRights> getExcludeRightses() {
-        return excludeRightses;
     }
 
     public long calculateAdjustStockPrice(LocalDate tradeDate, long tradePrice) {
@@ -40,6 +50,10 @@ public class ExcludeRightsWrapper {
             throw new IllegalArgumentException("error price");
         }
 
+        if (this.excludeRightses.isEmpty()) {
+            return tradePrice;
+        }
+
         List<ExcludeRights> rightsList = getExcludeRightsByDate(tradeDate);
 
         if (rightsList.isEmpty()) {
@@ -47,8 +61,6 @@ public class ExcludeRightsWrapper {
         }
 
         long adjustPrice = tradePrice;
-
-        //System.out.println("get cur price is: " + tradePrice + " day is: " + tradeDate.toString());
 
         for (ExcludeRights rights : rightsList) {
             adjustPrice = exchangeAdjustStockPrice(adjustPrice, rights);
