@@ -50,6 +50,8 @@ public final class SohuStockHttpCommandService {
         return sohuStockHttpCommandService;
     }
 
+
+
     public Long calculateAllotmentPrice(String stockCode, LocalDate date, HttpGet httpGet) {
         if (StringUtils.isBlank(stockCode)) {
             throw new NullPointerException("stock code is null");
@@ -135,30 +137,6 @@ public final class SohuStockHttpCommandService {
 
 
         if (CollectionUtils.isNotEmpty(excludeRightses)) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             return excludeRightses;
         }
 
