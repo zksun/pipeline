@@ -4,7 +4,10 @@ import com.sun.pipeline.stock.StockKlineStep;
 import com.sun.pipeline.stock.Time;
 import com.sun.pipeline.stock.domain.ExcludeRights;
 import com.sun.pipeline.stock.domain.KlineItem;
+import com.sun.pipeline.util.internal.Platform;
 import com.sun.pipeline.util.internal.http.HttpGet;
+import com.sun.pipeline.util.internal.logging.InternalLogger;
+import com.sun.pipeline.util.internal.logging.InternalLoggerFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,6 +27,7 @@ import static com.sun.pipeline.stock.StockUtil.getRealStockCode;
  */
 public final class SohuStockHttpCommandService {
 
+    private final static InternalLogger logger = InternalLoggerFactory.getInstance(SohuStockHttpCommandService.class.getName());
     private static SohuStockHttpCommandService sohuStockHttpCommandService;
 
     private String DEFAULT_LOCAL = "cn";
@@ -37,7 +41,7 @@ public final class SohuStockHttpCommandService {
     private String INFO_ADJUST_PARAM = "dr";
     private String INFO_STAR_DAY_PARAM = "date";
     private String DEFAULT_ADJUST = "0";
-    private String ADJUST = "";
+    private String ADJUST = "1";
 
     public static SohuStockHttpCommandService getInstance() {
         if (null == sohuStockHttpCommandService) {
@@ -68,7 +72,7 @@ public final class SohuStockHttpCommandService {
     }
 
 
-    public List<KlineItem> getKlineInfo(HttpGet httpGet, String stockCode, Time time, boolean adjust, LocalDate date, int count) {
+    public List<KlineItem> getKlineInfo(HttpGet httpGet, String stockCode, Time time, boolean adjust, LocalDate start, int count) {
         if (null == httpGet) {
             throw new NullPointerException("httpGet is necessary");
         }
@@ -83,9 +87,12 @@ public final class SohuStockHttpCommandService {
                 .addParameters(INFO_PERIOD_PARAM, time.getTime())
                 .addParameters(INFO_ADJUST_PARAM, adjust == true ? ADJUST : DEFAULT_ADJUST);
 
-        if (null != date) {
+        if (null != start) {
+            if (!time.equals(StockKlineStep.DAY) || count == 0) {
+                throw new IllegalArgumentException();
+            }
             DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
-            httpGet = httpGet.addParameters(INFO_STAR_DAY_PARAM, yyyyMMdd.format(date))
+            httpGet = httpGet.addParameters(INFO_STAR_DAY_PARAM, yyyyMMdd.format(start))
                     .addParameters(INFO_COUNT_PARAM, String.valueOf(count));
         }
 
@@ -93,7 +100,8 @@ public final class SohuStockHttpCommandService {
         try {
             response = httpGet.getResponseByStringParameter(kLineInformationHandler);
         } catch (IOException e) {
-            // TODO: 2017/7/3 take log
+            logger.error("get k line info error: ", e);
+            Platform.throwException(e);
         }
 
         if (CollectionUtils.isNotEmpty(response)) {
@@ -121,7 +129,8 @@ public final class SohuStockHttpCommandService {
                     .addParameters(INFO_PERIOD_PARAM, StockKlineStep.DAY.getTime())
                     .addParameters(INFO_ADJUST_PARAM, DEFAULT_ADJUST).getResponseByStringParameter(excludeRightsHandler);
         } catch (IOException e) {
-            // TODO: 2017/7/4 take log
+            logger.error("get exclude rights info error: ", e);
+            Platform.throwException(e);
         }
 
 

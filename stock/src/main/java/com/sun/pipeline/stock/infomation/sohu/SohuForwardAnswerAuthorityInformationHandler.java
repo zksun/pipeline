@@ -53,6 +53,7 @@ public class SohuForwardAnswerAuthorityInformationHandler implements Information
             right.setAdjustDay(LocalDate.parse(strings[0].trim(), DateTimeFormatter.ofPattern("yyyyMMdd")));
             right.setAllotmentStock(NumberUtils.toInt(strings[1].trim()));
             if (right.getAllotmentStock() > 0) {
+
             } else {
                 right.setAllotmentPrice(0L);
             }

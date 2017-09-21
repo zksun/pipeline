@@ -31,7 +31,7 @@ public final class StockUtil {
             total += item.getClosePrice();
         }
         BigDecimal bigDecimal = new BigDecimal(total);
-        return bigDecimal.divide(new BigDecimal(klineItems.size()), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(7)).longValue();
+        return bigDecimal.divide(new BigDecimal(klineItems.size()), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(.7)).longValue();
     }
 
     private StockUtil() {
