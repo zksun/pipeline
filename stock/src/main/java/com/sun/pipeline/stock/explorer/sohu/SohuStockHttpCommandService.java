@@ -135,6 +135,30 @@ public final class SohuStockHttpCommandService {
 
 
         if (CollectionUtils.isNotEmpty(excludeRightses)) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             return excludeRightses;
         }
 

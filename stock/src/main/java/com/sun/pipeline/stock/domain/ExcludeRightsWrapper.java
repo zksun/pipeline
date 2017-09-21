@@ -104,7 +104,7 @@ public final class ExcludeRightsWrapper {
     }
 
     private List<ExcludeRights> copySubListByIndex(int index) {
-        return excludeRightses.subList(index, excludeRightses.size());
+        return excludeRightses.subList(excludeRightses.size() - index, excludeRightses.size());
     }
 
     private static class ExcludeRightsComparator implements Comparator<ExcludeRights> {

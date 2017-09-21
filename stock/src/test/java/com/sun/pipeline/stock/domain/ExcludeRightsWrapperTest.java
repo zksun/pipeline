@@ -19,7 +19,7 @@ public class ExcludeRightsWrapperTest {
         List<ExcludeRights> sz_600030 = instance.getExcludeRightsInfo(httpGetInstance, "sz_600030");
 
         ExcludeRightsWrapper rightsWrapper = ExcludeRightsWrapper.getInstance(sz_600030);
-        long l = rightsWrapper.calculateAdjustStockPrice(LocalDate.of(2017, 9, 20), 1800);
+        long l = rightsWrapper.calculateAdjustStockPrice(LocalDate.of(2017, 4, 27), 1619);
         System.out.println(l);
     }
 
