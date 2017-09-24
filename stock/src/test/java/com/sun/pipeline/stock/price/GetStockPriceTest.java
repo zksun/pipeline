@@ -59,11 +59,9 @@ public class GetStockPriceTest {
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\w+)"));
         List<File> files = defaultFileOperator.allFiles(list.get(0), ((dir, name) -> name.matches("(\\w+)(\\.txt)")));
-        Stock stock = new Stock(Trade.SHANGHAI, list.get(0).getName());
+        Stock stock = new Stock(list.get(0).getName());
         StockDayContainer stockDayContainer = new StockDayContainer(stock, LocalDate.of(2017, 9, 21));
-        for (File file : files) {
-            stockDayContainer.swallow(file);
-        }
+        files.forEach(file -> stockDayContainer.swallow(file));
         System.out.println(stockDayContainer);
     }
 }

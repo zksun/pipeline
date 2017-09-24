@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,13 +132,15 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             allocate.flip();
             int realSequence = getRealSequence(allocate.getShort());
             int realPrice = allocate.getInt();
-            int handNum = allocate.getInt();
-            int source = allocate.getInt();
+            int hand = allocate.getInt();
+            allocate.getInt();
             short buyOrSell = allocate.getShort();
             StockPrice stockPrice = new StockPrice();
             stockPrice.setStock(this.stock);
-            stockPrice.setTime(new TimeDomain(this.dateTime));
+            stockPrice.setTime(calculateTimeDomain(realSequence));
             stockPrice.setPrice((long) realPrice);
+            stockPrice.setHand(hand);
+
             return stockPrice;
         } catch (Exception e) {
             throw new StockException("convert stock price error");
@@ -145,6 +149,12 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
                 allocate = null;
             }
         }
+    }
+
+    private TimeDomain calculateTimeDomain(int realSequence) {
+        LocalDateTime realDateTime = LocalDateTime.of(this.dateTime, LocalTime.of(9, 0));
+        realDateTime.plusSeconds(realSequence);
+        return new TimeDomain(realDateTime);
     }
 
 

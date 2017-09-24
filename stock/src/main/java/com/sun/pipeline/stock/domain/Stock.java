@@ -15,6 +15,15 @@ public class Stock {
         this.stockCode = stockCode;
     }
 
+    public Stock(String stockCode) {
+        this.stockCode = stockCode;
+        if (stockCode.startsWith("sh")) {
+            this.trade = Trade.SHANGHAI;
+        } else if (stockCode.startsWith("sz")) {
+            this.trade = Trade.SHENZHEN;
+        }
+    }
+
     public Trade getTrade() {
         return trade;
     }

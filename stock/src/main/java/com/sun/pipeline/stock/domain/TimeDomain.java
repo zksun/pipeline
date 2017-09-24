@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
  */
 public class TimeDomain {
 
-    private LocalDate dateTime;
+    private LocalDateTime dateTime;
 
-    public TimeDomain(LocalDate dateTime) {
+    public TimeDomain(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
-    public LocalDate getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 

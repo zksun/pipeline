@@ -8,6 +8,10 @@ public class StockPrice {
     private Stock stock;
     private TimeDomain time;
     private Long price;
+    private Integer hand;
+
+    private Trade trade;
+
 
     public Stock getStock() {
         return stock;
@@ -31,5 +35,31 @@ public class StockPrice {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public Integer getHand() {
+        return hand;
+    }
+
+    public void setHand(Integer hand) {
+        this.hand = hand;
+    }
+
+    public Trade getTrade() {
+        return trade;
+    }
+
+    public void setTrade(int code) {
+        this.trade = Trade.getTradeByCode(code);
+    }
+
+    @Override
+    public String toString() {
+        return "StockPrice{" +
+                "stock=" + stock +
+                ", time=" + time +
+                ", price=" + price +
+                ", hand=" + hand +
+                '}';
     }
 }
