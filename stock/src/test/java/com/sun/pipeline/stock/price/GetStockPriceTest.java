@@ -1,6 +1,5 @@
 package com.sun.pipeline.stock.price;
 
-import com.sun.pipeline.stock.Trade;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.system.SystemConfig;
 import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;

@@ -1,8 +1,12 @@
 package com.sun.pipeline.stock;
 
+import com.sun.pipeline.stock.domain.ExcludeRights;
+import com.sun.pipeline.stock.domain.ExcludeRightsWrapper;
 import com.sun.pipeline.stock.domain.KlineItem;
+import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +21,23 @@ public final class StockUtil {
             return source - 570;
         } else {
             return source - 660;
+        }
+    }
+
+    public static long calculateAuthorityPrice(String stockCode, LocalDate time, long source, Authority authority) {
+        switch (authority) {
+            case FORWARD_ANSWER_AUTHORITY: {
+                List<ExcludeRights> excludeRightsInfo = SohuStockHttpCommandService.getInstance()
+                        .getExcludeRightsInfo(Contants.DEFAULT_SOHU_INFO_HTTP_GET, stockCode);
+                if (null == excludeRightsInfo) {
+                    throw new NullPointerException();
+                }
+                return ExcludeRightsWrapper.getInstance(excludeRightsInfo).calculateAdjustStockPrice(time, source);
+            }
+            case BACKWARD_ANSWER_AUTHORITY:
+                throw new UnsupportedOperationException();
+            default:
+                throw new IllegalArgumentException("unknown authority");
         }
     }
 

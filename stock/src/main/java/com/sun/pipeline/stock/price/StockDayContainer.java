@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sun.pipeline.stock.Authority.FORWARD_ANSWER_AUTHORITY;
+import static com.sun.pipeline.stock.StockUtil.calculateAuthorityPrice;
 import static com.sun.pipeline.stock.StockUtil.getRealSequence;
 
 /**
@@ -87,6 +88,12 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             return this;
         }
         add(convert(inputStream));
+        if (isLi()) {
+            for (StockPrice price : this.prices) {
+                price.setPrice(price.getPrice() / 10);
+                price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), FORWARD_ANSWER_AUTHORITY));
+            }
+        }
         return this;
     }
 
@@ -124,6 +131,17 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         return list;
     }
 
+    private boolean isLi() {
+        if (!this.prices.isEmpty()) {
+            for (StockPrice price : prices) {
+                if (0 != (price.getPrice() % 10)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private StockPrice getStockPrice(byte[] buf) {
         ByteBuffer allocate = null;
         try {
@@ -141,6 +159,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             stockPrice.setPrice((long) realPrice);
             stockPrice.setHand(hand);
             stockPrice.setTrade(buyOrSell);
+            stockPrice.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, realPrice, FORWARD_ANSWER_AUTHORITY));
             return stockPrice;
         } catch (Exception e) {
             throw new StockException("convert stock price error");

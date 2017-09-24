@@ -11,6 +11,7 @@ public class StockPrice {
     private Integer hand;
 
     private Trade trade;
+    private Long authorityPrice;
 
 
     public Stock getStock() {
@@ -49,8 +50,16 @@ public class StockPrice {
         return trade;
     }
 
-    public void setTrade(int code) {
+    public void setTrade(short code) {
         this.trade = Trade.getTradeByCode(code);
+    }
+
+    public Long getAuthorityPrice() {
+        return authorityPrice;
+    }
+
+    public void setAuthorityPrice(Long authorityPrice) {
+        this.authorityPrice = authorityPrice;
     }
 
     @Override
@@ -60,6 +69,8 @@ public class StockPrice {
                 ", time=" + time +
                 ", price=" + price +
                 ", hand=" + hand +
+                ", trade=" + trade +
+                ", authorityPrice=" + authorityPrice +
                 '}';
     }
 }
