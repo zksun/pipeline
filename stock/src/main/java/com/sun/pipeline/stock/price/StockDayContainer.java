@@ -1,7 +1,6 @@
 package com.sun.pipeline.stock.price;
 
 import com.sun.pipeline.stock.Authority;
-import com.sun.pipeline.stock.StockKlineStep;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.domain.TimeDomain;

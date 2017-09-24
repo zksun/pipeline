@@ -3,7 +3,10 @@ package com.sun.pipeline.stock.infomation.sohu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sun.pipeline.handler.info.InformationHandler;
+import com.sun.pipeline.stock.Contants;
 import com.sun.pipeline.stock.domain.ExcludeRights;
+import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
+import com.sun.pipeline.util.Constant;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -50,9 +53,13 @@ public class SohuForwardAnswerAuthorityInformationHandler implements Information
         for (List<String> list : dataList) {
             ExcludeRights right = new ExcludeRights(stockCode);
             String[] strings = list.toArray(new String[list.size()]);
-            right.setAdjustDay(LocalDate.parse(strings[0].trim(), DateTimeFormatter.ofPattern("yyyyMMdd")));
+            LocalDate adjustDay = LocalDate.parse(strings[0].trim(), DateTimeFormatter.ofPattern("yyyyMMdd"));
+            right.setAdjustDay(adjustDay);
             right.setAllotmentStock(NumberUtils.toInt(strings[1].trim()));
             if (right.getAllotmentStock() > 0) {
+                Long allotmentPrice = SohuStockHttpCommandService.getInstance()
+                        .calculateAllotmentPrice(stockCode, adjustDay, Contants.DEFAULT_SOHU_INFO_HTTP_GET);
+                right.setAllotmentPrice(allotmentPrice);
 
             } else {
                 right.setAllotmentPrice(0L);

@@ -24,7 +24,7 @@ public final class StockUtil {
         if (null == code || code.equals("")) {
             throw new NullPointerException("code");
         }
-        Matcher matcher = Pattern.compile("(sz|sh)(\\w+)").matcher(code);
+        Matcher matcher = Pattern.compile("(sz|sh)(\\d+)").matcher(code);
         if (matcher.find()) {
             return matcher.group(2);
         }

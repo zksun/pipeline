@@ -16,7 +16,7 @@ public class ExcludeRightsWrapperTest {
     public void excludeRightsTest() {
         SohuStockHttpCommandService instance = SohuStockHttpCommandService.getInstance();
         HttpGet httpGetInstance = HttpGet.getHttpGetInstance("http://q.stock.sohu.com", 80, "/qp/hq", 3);
-        List<ExcludeRights> sz_600030 = instance.getExcludeRightsInfo(httpGetInstance, "sz_600030");
+        List<ExcludeRights> sz_600030 = instance.getExcludeRightsInfo(httpGetInstance, "sz600030");
 
         ExcludeRightsWrapper rightsWrapper = ExcludeRightsWrapper.getInstance(sz_600030);
         long l = rightsWrapper.calculateAdjustStockPrice(LocalDate.of(2017, 4, 27), 1619);

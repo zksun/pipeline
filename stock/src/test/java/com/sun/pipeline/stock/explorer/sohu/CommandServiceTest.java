@@ -18,7 +18,7 @@ public class CommandServiceTest {
     public void calculateAllotmentPrice() {
         SohuStockHttpCommandService instance = SohuStockHttpCommandService.getInstance();
         HttpGet httpGetInstance = HttpGet.getHttpGetInstance("http://q.stock.sohu.com", 80, "/qp/hq", 3);
-        Long sh601688 = instance.calculateAllotmentPrice("sh_601688", LocalDate.of(2017,9,19), httpGetInstance);
+        Long sh601688 = instance.calculateAllotmentPrice("sh601688", LocalDate.of(2017,9,19), httpGetInstance);
         System.out.println(sh601688);
     }
 
@@ -26,7 +26,7 @@ public class CommandServiceTest {
     public void getExcludeRightsInfo(){
         SohuStockHttpCommandService instance = SohuStockHttpCommandService.getInstance();
         HttpGet httpGetInstance = HttpGet.getHttpGetInstance("http://q.stock.sohu.com", 80, "/qp/hq", 3);
-        List<ExcludeRights> sh_601688 = instance.getExcludeRightsInfo(httpGetInstance, "sz_000776");
+        List<ExcludeRights> sh_601688 = instance.getExcludeRightsInfo(httpGetInstance, "sz000776");
         System.out.println(sh_601688);
     }
 
