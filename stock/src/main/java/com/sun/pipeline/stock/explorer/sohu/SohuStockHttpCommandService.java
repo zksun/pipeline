@@ -118,7 +118,7 @@ public final class SohuStockHttpCommandService {
 
     public List<ExcludeRights> getExcludeRightsInfo(HttpGet httpGet, String stockCode) {
         if (null == httpGet) {
-            throw new NullPointerException("http get is necessay");
+            throw new NullPointerException("http get is necessary");
         }
         if (StringUtils.isBlank(stockCode)) {
             throw new NullPointerException("stock code is necessary");
