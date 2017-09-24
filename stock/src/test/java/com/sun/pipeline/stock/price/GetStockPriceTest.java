@@ -73,19 +73,22 @@ public class GetStockPriceTest {
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
-
+        int i = 0;
         for (File directory : list) {
             List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
             for (File file : files) {
                 try {
                     Stock stock = new Stock(directory.getName());
-                    StockDayContainer stockDayContainer = new StockDayContainer(stock,getRealTime(file.getName()));
+                    StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(file.getName()));
                     stockDayContainer.swallow(file);
                     containers.add(stockDayContainer);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            i++;
+            System.out.println("add " + i + " stock containers with stock id: " + directory.getName());
         }
 
         System.out.println(containers);

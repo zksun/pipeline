@@ -33,7 +33,7 @@ public final class StockUtil {
                 if (null == excludeRightsInfo) {
                     throw new NullPointerException();
                 }
-                return ExcludeRightsWrapper.getInstance(excludeRightsInfo).calculateAdjustStockPrice(time, source);
+                return ExcludeRightsWrapper.getInstance(stockCode, excludeRightsInfo).calculateAdjustStockPrice(time, source);
             }
             case BACKWARD_ANSWER_AUTHORITY:
                 throw new UnsupportedOperationException();
