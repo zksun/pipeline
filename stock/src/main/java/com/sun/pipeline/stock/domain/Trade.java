@@ -4,15 +4,15 @@ package com.sun.pipeline.stock.domain;
  * Created by zhikunsun on 17/9/24.
  */
 public enum Trade {
-    BUY(0), SELL(1), UNKNOWN(2);
+    BUY((short) 0), SELL((short) 1), UNKNOWN((short) 2);
 
-    private int code;
+    private short code;
 
-    Trade(int code) {
+    Trade(short code) {
         this.code = code;
     }
 
-    public static Trade getTradeByCode(int code) {
+    public static Trade getTradeByCode(short code) {
         switch (code) {
             case 0:
                 return BUY;

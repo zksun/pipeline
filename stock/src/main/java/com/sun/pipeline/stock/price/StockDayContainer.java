@@ -140,7 +140,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             stockPrice.setTime(calculateTimeDomain(realSequence));
             stockPrice.setPrice((long) realPrice);
             stockPrice.setHand(hand);
-
+            stockPrice.setTrade(buyOrSell);
             return stockPrice;
         } catch (Exception e) {
             throw new StockException("convert stock price error");
