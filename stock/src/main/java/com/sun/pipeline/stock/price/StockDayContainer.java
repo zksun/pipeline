@@ -100,7 +100,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
 
     protected List<StockPrice> convert(InputStream inputStream) {
         byte[] buf = new byte[16];
-        List<StockPrice> list = new ArrayList<StockPrice>();
+        List<StockPrice> list = new ArrayList<>();
         try {
             while ((inputStream.read(buf)) != -1) {
                 StockPrice stockPrice = getStockPrice(buf);
