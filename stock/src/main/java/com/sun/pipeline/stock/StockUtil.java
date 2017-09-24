@@ -7,6 +7,7 @@ import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +51,17 @@ public final class StockUtil {
             return matcher.group(2);
         }
         return "";
+    }
+
+    public static LocalDate getRealTime(String code) {
+        if (null == code || code.equals("")) {
+            throw new NullPointerException("code");
+        }
+        Matcher matcher = Pattern.compile("(\\d+)(\\.txt)").matcher(code);
+        if (matcher.find()) {
+            return LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
+        throw new IllegalArgumentException();
     }
 
     public static Long calculateAveragePrice(List<KlineItem> klineItems) {

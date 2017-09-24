@@ -6,7 +6,9 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.DefaultHttpParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 
@@ -55,7 +57,7 @@ public final class HttpGet extends AbstractHttpGet {
 
         synchronized (this) {
             if (null == parameters) {
-                this.parameters = new ArrayList<NameValuePair>();
+                this.parameters = new ArrayList<>();
             }
             parameters.add(new NameValuePair(parameterName, value));
         }
@@ -96,7 +98,9 @@ public final class HttpGet extends AbstractHttpGet {
         } catch (Exception e) {
             this.getMethod.releaseConnection();
             this.active = false;
-            throw new RuntimeException("http query error");
+            throw new RuntimeException("http query error", e);
+        } finally {
+            parameters.clear();
         }
     }
 
@@ -168,5 +172,8 @@ public final class HttpGet extends AbstractHttpGet {
     private HttpGet() {
     }
 
+    static {
+        DefaultHttpParams.getDefaultParams().setParameter("http.protocol.cookie-policy", CookiePolicy.BROWSER_COMPATIBILITY);
+    }
 
 }

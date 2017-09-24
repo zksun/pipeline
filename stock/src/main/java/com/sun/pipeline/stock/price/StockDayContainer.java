@@ -67,7 +67,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         try {
             return swallow(new FileInputStream(file));
         } catch (Exception e) {
-            throw new IllegalArgumentException("file error");
+            throw new IllegalArgumentException("file error", e);
         }
     }
 
@@ -114,7 +114,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
                 list.add(stockPrice);
             }
         } catch (Exception e) {
-            throw new StockException("convert stock price error");
+            throw new StockException("convert stock price error", e);
         } finally {
             if (null != inputStream) {
                 try {
@@ -162,7 +162,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             stockPrice.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, realPrice, FORWARD_ANSWER_AUTHORITY));
             return stockPrice;
         } catch (Exception e) {
-            throw new StockException("convert stock price error");
+            throw new StockException("convert stock price error", e);
         } finally {
             if (null != allocate) {
                 allocate = null;

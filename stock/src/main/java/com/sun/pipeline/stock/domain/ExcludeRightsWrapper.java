@@ -15,11 +15,10 @@ public final class ExcludeRightsWrapper {
 
     private final List<ExcludeRights> excludeRightses;
 
-    public static ExcludeRightsWrapper getInstance(List<ExcludeRights> list) {
+    public static ExcludeRightsWrapper getInstance(String stockCode, List<ExcludeRights> list) {
         if (null == list) {
             throw new NullPointerException("list");
         }
-        String stockCode = getStockCode(list);
         if (cache.containsKey(stockCode)) {
             return cache.get(stockCode);
         }
@@ -38,7 +37,9 @@ public final class ExcludeRightsWrapper {
     }
 
     private void sortList() {
-        sort(excludeRightses, new ExcludeRightsComparator());
+        if (!excludeRightses.isEmpty()) {
+            sort(excludeRightses, new ExcludeRightsComparator());
+        }
     }
 
     public long calculateAdjustStockPrice(LocalDate tradeDate, long tradePrice) {
