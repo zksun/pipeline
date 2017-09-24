@@ -1,5 +1,6 @@
 package com.sun.pipeline.stock.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -7,13 +8,13 @@ import java.time.LocalDateTime;
  */
 public class TimeDomain {
 
-    private LocalDateTime dateTime;
+    private LocalDate dateTime;
 
-    public TimeDomain(LocalDateTime dateTime) {
+    public TimeDomain(LocalDate dateTime) {
         this.dateTime = dateTime;
     }
 
-    public LocalDateTime getDateTime() {
+    public LocalDate getDateTime() {
         return dateTime;
     }
 

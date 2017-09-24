@@ -4,6 +4,8 @@ import com.sun.pipeline.stock.domain.KlineItem;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zksun on 19/06/2017.
@@ -19,10 +21,14 @@ public final class StockUtil {
     }
 
     public static String getRealStockCode(String code) {
-        if (code.split("_").length > 1) {
-            return code.substring(3, code.length());
+        if (null == code || code.equals("")) {
+            throw new NullPointerException("code");
         }
-        return code;
+        Matcher matcher = Pattern.compile("(sz|sh)(\\w+)").matcher(code);
+        if (matcher.find()) {
+            return matcher.group(2);
+        }
+        return "";
     }
 
     public static Long calculateAveragePrice(List<KlineItem> klineItems) {

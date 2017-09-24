@@ -1,7 +1,5 @@
 package com.sun.pipeline.stock.domain;
 
-import java.util.List;
-
 /**
  * Created by zksun on 13/06/2017.
  */
@@ -9,7 +7,7 @@ public class StockPrice {
 
     private Stock stock;
     private TimeDomain time;
-    private List<Integer> prices;
+    private Long price;
 
     public Stock getStock() {
         return stock;
@@ -27,11 +25,11 @@ public class StockPrice {
         this.time = time;
     }
 
-    public List<Integer> getPrices() {
-        return prices;
+    public Long getPrice() {
+        return price;
     }
 
-    public void setPrices(List<Integer> prices) {
-        this.prices = prices;
+    public void setPrice(Long price) {
+        this.price = price;
     }
 }
