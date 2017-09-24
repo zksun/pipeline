@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.sun.pipeline.stock.Contants.excludeRightsHandler;
 import static com.sun.pipeline.stock.Contants.kLineInformationHandler;
@@ -43,13 +45,14 @@ public final class SohuStockHttpCommandService {
     private String DEFAULT_ADJUST = "0";
     private String ADJUST = "1";
 
+    private final static Map<String, List<ExcludeRights>> excludeRightsCache = new HashMap<>();
+
     public static SohuStockHttpCommandService getInstance() {
         if (null == sohuStockHttpCommandService) {
             sohuStockHttpCommandService = new SohuStockHttpCommandService();
         }
         return sohuStockHttpCommandService;
     }
-
 
 
     public Long calculateAllotmentPrice(String stockCode, LocalDate date, HttpGet httpGet) {
@@ -123,6 +126,10 @@ public final class SohuStockHttpCommandService {
 
         stockCode = getRealStockCode(stockCode);
 
+        if (excludeRightsCache.containsKey(stockCode)) {
+            return excludeRightsCache.get(stockCode);
+        }
+
         List<ExcludeRights> excludeRightses = null;
         try {
             excludeRightses = httpGet.addParameters(INFO_TYPE_PARAM, INFO_KLINE_VALUE)
@@ -137,11 +144,11 @@ public final class SohuStockHttpCommandService {
 
 
         if (CollectionUtils.isNotEmpty(excludeRightses)) {
+            excludeRightsCache.put(stockCode, excludeRightses);
             return excludeRightses;
         }
 
         return Collections.EMPTY_LIST;
     }
-
 
 }
