@@ -15,7 +15,7 @@ public class PriceChecker implements Checker<Integer> {
             throw new NullPointerException("no check prices");
         }
         for (Integer price : prices) {
-            if (!check(price)) {
+            if (check(price)) {
                 return false;
             }
         }
@@ -27,7 +27,7 @@ public class PriceChecker implements Checker<Integer> {
             throw new NullPointerException("price");
         }
 
-        if (price % 10 == 0) {
+        if (price % 10 != 0) {
             return false;
         }
 
