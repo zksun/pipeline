@@ -60,7 +60,6 @@ public class SohuForwardAnswerAuthorityInformationHandler implements Information
                 Long allotmentPrice = SohuStockHttpCommandService.getInstance()
                         .calculateAllotmentPrice(stockCode, adjustDay, Contants.DEFAULT_SOHU_INFO_HTTP_GET);
                 right.setAllotmentPrice(allotmentPrice);
-
             } else {
                 right.setAllotmentPrice(0L);
             }
