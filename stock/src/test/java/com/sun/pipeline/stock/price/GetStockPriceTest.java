@@ -101,7 +101,7 @@ public class GetStockPriceTest {
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
-        String stockCode = "sz300498";
+        String stockCode = "sh601688";
         File directory = find(stockCode, list);
         if (null != directory) {
             List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
@@ -113,25 +113,30 @@ public class GetStockPriceTest {
             }
             List<StockPrice> buyList = new LinkedList<>();
             List<StockPrice> sellList = new LinkedList<>();
+            List<StockPrice> priceList = new LinkedList<>();
             for (StockDayContainer container : containers) {
                 List<StockPrice> data = container.getData();
-                for (StockPrice price : data) {
-                    if (price.getTrade().equals(Trade.BUY)) {
-                        buyList.add(price);
-                    } else if (price.getTrade().equals(Trade.SELL)) {
-                        sellList.add(price);
-                    }
-                }
+                priceList.addAll(data);
+//                for (StockPrice price : data) {
+//                    if (price.getTrade().equals(Trade.BUY)) {
+//                        buyList.add(price);
+//                    } else if (price.getTrade().equals(Trade.SELL)) {
+//                        sellList.add(price);
+//                    }
+//                }
             }
-            buyList.sort(new PriceComparators.PriceAscComparator());
-            sellList.sort(new PriceComparators.PriceDesComparator());
-
-            List<StockPrice> difference = compareSellBuyList(sellList, buyList);
+//            buyList.sort(new PriceComparators.PriceAscComparator());
+//            sellList.sort(new PriceComparators.PriceDesComparator());
+//
+//            List<StockPrice> difference = compareSellBuyList(sellList, buyList);
+            priceList.sort(new PriceComparators.PriceDesComparator());
             PriceTube priceTube = new PriceTube();
-            for (StockPrice price : difference) {
+            for (StockPrice price : priceList) {
                 priceTube.add(price);
             }
-            List<PriceTube.DistributedTube> distributed = priceTube.getDistributed();
+            Long hughAllPrice = priceTube.getHughAllPrice();
+            List<PriceTube.DistributedTube> distributed = priceTube.getDistributedList();
+            List<PriceTube.DistributedTube> distributedPercentList = priceTube.getDistributedPercentList(66.00d);
             System.out.println("end");
         }
 

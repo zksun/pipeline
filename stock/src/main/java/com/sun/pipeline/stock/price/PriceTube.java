@@ -11,6 +11,7 @@ import java.util.*;
 public class PriceTube implements Tube<StockPrice> {
 
     private Map<String, DistributedTube> hashMap = new HashMap<>();
+    private Long hughAllPrice = 0L;
 
     @Override
     public void add(StockPrice stockPrice) {
@@ -27,11 +28,13 @@ public class PriceTube implements Tube<StockPrice> {
     public class DistributedTube implements Tube<StockPrice> {
         private Long total = 0L;
         private Long price;
+        private double percentage;
 
         @Override
         public void add(StockPrice stockPrice) {
             price = stockPrice.getAuthorityPrice();
             total = total + stockPrice.getAuthorityPrice() * stockPrice.getHand();
+            hughAllPrice += stockPrice.getAuthorityPrice() * stockPrice.getHand();
         }
 
         public Long getTotal() {
@@ -49,21 +52,45 @@ public class PriceTube implements Tube<StockPrice> {
         public void setPrice(Long price) {
             this.price = price;
         }
+
+        public void percentage() {
+            percentage = (double) total * 100 / (double) hughAllPrice;
+        }
+
+        public double getPercentage() {
+            return percentage;
+        }
     }
 
-    public List<DistributedTube> getDistributed() {
+    public List<DistributedTube> getDistributedPercentList(double fence) {
+        double percent = 0.00d;
+        List<DistributedTube> list = new ArrayList<>();
+        List<DistributedTube> distributedList = getDistributedList();
+        for (DistributedTube distributedTube : distributedList) {
+            percent += distributedTube.getPercentage();
+            list.add(distributedTube);
+            if (percent > fence) break;
+        }
+        return list;
+    }
+
+    public List<DistributedTube> getDistributedList() {
         if (hashMap.isEmpty()) {
             return Collections.EMPTY_LIST;
         }
         Collection<DistributedTube> values = hashMap.values();
         ArrayList arrayList = new ArrayList(values.size());
         for (DistributedTube tube : values) {
+            tube.percentage();
             arrayList.add(tube);
         }
         arrayList.sort(new DistributedComparator());
         return arrayList;
     }
 
+    public Long getHughAllPrice() {
+        return hughAllPrice;
+    }
 
     private static class DistributedComparator implements Comparator<DistributedTube> {
 
