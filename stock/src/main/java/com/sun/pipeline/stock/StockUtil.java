@@ -105,10 +105,10 @@ public final class StockUtil {
         return null;
     }
 
-    public static List compareSellBuyList(List<StockPrice> sellList, List<StockPrice> buyList) {
+    public static List<StockPrice> compareSellBuyList(List<StockPrice> sellList, List<StockPrice> buyList) {
+
         int sellIndex = 0;
         int buyIndex = 0;
-
         int margin = 0;
 
         for (; ; ) {

@@ -101,7 +101,7 @@ public class GetStockPriceTest {
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
-        String stockCode = "sh601688";
+        String stockCode = "sz300498";
         File directory = find(stockCode, list);
         if (null != directory) {
             List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
@@ -126,8 +126,12 @@ public class GetStockPriceTest {
             buyList.sort(new PriceComparators.PriceAscComparator());
             sellList.sort(new PriceComparators.PriceDesComparator());
 
-            List difference = compareSellBuyList(sellList, buyList);
-
+            List<StockPrice> difference = compareSellBuyList(sellList, buyList);
+            PriceTube priceTube = new PriceTube();
+            for (StockPrice price : difference) {
+                priceTube.add(price);
+            }
+            List<PriceTube.DistributedTube> distributed = priceTube.getDistributed();
             System.out.println("end");
         }
 
