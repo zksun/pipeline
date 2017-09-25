@@ -172,8 +172,8 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
 
     private TimeDomain calculateTimeDomain(int realSequence) {
         LocalDateTime realDateTime = LocalDateTime.of(this.dateTime, LocalTime.of(9, 0));
-        realDateTime.plusSeconds(realSequence);
-        return new TimeDomain(realDateTime);
+        LocalDateTime localDateTime = realDateTime.plusMinutes(realSequence);
+        return new TimeDomain(localDateTime);
     }
 
 

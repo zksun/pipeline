@@ -1,6 +1,7 @@
 package com.sun.pipeline.stock.price;
 
 import com.sun.pipeline.stock.domain.Stock;
+import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.system.SystemConfig;
 import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;
 import org.junit.Test;
@@ -8,8 +9,11 @@ import org.junit.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static com.sun.pipeline.stock.StockUtil.find;
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
 
 /**
@@ -68,14 +72,12 @@ public class GetStockPriceTest {
     }
 
     @Test
-    public void allStockDayContainer() {
+    public void allStockDayContainers() {
         List<StockDayContainer> containers = new ArrayList<>();
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
-        int i = 0;
         for (File directory : list) {
-            System.out.println("now add " + i + " stock containers with stock id: " + directory.getName());
             List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
             for (File file : files) {
                 try {
@@ -88,10 +90,37 @@ public class GetStockPriceTest {
                     e.printStackTrace();
                 }
             }
-            i++;
-            System.out.println("add " + i + " stock containers with stock id: " + directory.getName());
         }
 
         System.out.println(containers);
     }
+
+    @Test
+    public void oneStockDayContainers() {
+        List<StockDayContainer> containers = new ArrayList<>();
+        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
+        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
+        List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
+        String stockCode = "sh601688";
+        File directory = find(stockCode, list);
+        if (null != directory) {
+            List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
+            for (File file : files) {
+                Stock stock = new Stock(directory.getName());
+                StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(file.getName()));
+                stockDayContainer.swallow(file);
+                containers.add(stockDayContainer);
+            }
+            Map<String, StockPrice> priceMap = new HashMap<>();
+            for (StockDayContainer container : containers) {
+                List<StockPrice> data = container.getData();
+                for (StockPrice price : data) {
+
+                }
+            }
+        }
+
+    }
+
+
 }

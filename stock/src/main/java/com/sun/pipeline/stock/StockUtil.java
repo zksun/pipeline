@@ -5,6 +5,7 @@ import com.sun.pipeline.stock.domain.ExcludeRightsWrapper;
 import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
@@ -24,6 +25,22 @@ public final class StockUtil {
         } else {
             return source - 660;
         }
+    }
+
+    public static File find(String stockCode, List<File> stockDirectory) {
+        if (null == stockCode || stockCode.equals("")) {
+            throw new NullPointerException("stock code");
+        }
+        if (null == stockDirectory || stockDirectory.isEmpty()) {
+            throw new NullPointerException("stock directory");
+        }
+
+        for (File file : stockDirectory) {
+            if (file.getName().equals(stockCode) && file.isDirectory()) {
+                return file;
+            }
+        }
+        return null;
     }
 
     public static long calculateAuthorityPrice(String stockCode, LocalDate time, long source, Authority authority) {
