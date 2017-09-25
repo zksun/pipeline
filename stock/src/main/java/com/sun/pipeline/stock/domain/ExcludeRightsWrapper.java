@@ -11,30 +11,17 @@ import static java.util.Collections.sort;
  */
 public final class ExcludeRightsWrapper {
 
-    private final static Map<String, ExcludeRightsWrapper> cache = new HashMap<>();
-
-    public static void addWrapperInCache(String stockCode, List<ExcludeRights> list) {
-        if (null == list) {
-            throw new NullPointerException("list");
-        }
-        if (cache.containsKey(stockCode)) {
-            return;
-        } else {
-            cache.put(stockCode, new ExcludeRightsWrapper(list));
-        }
-    }
 
     private final List<ExcludeRights> excludeRights;
 
     public static ExcludeRightsWrapper getInstance(String stockCode, List<ExcludeRights> list) {
+        if (null == stockCode || stockCode.equals("")) {
+            throw new NullPointerException("stockCode");
+        }
         if (null == list) {
             throw new NullPointerException("list");
         }
-        if (cache.containsKey(stockCode)) {
-            return cache.get(stockCode);
-        }
-        cache.put(stockCode, new ExcludeRightsWrapper(list));
-        return cache.get(stockCode);
+        return new ExcludeRightsWrapper(list);
     }
 
 

@@ -75,6 +75,7 @@ public class GetStockPriceTest {
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
         int i = 0;
         for (File directory : list) {
+            System.out.println("now add " + i + " stock containers with stock id: " + directory.getName());
             List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
             for (File file : files) {
                 try {
@@ -92,7 +93,5 @@ public class GetStockPriceTest {
         }
 
         System.out.println(containers);
-
-
     }
 }

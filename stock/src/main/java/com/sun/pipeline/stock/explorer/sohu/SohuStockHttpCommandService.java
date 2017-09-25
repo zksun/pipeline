@@ -116,7 +116,7 @@ public final class SohuStockHttpCommandService {
 
     }
 
-    public synchronized List<ExcludeRights> getExcludeRightsInfo(HttpGet httpGet, String stockCode) {
+    public List<ExcludeRights> getExcludeRightsInfo(HttpGet httpGet, String stockCode) {
         if (null == httpGet) {
             throw new NullPointerException("http get is necessary");
         }
@@ -143,7 +143,7 @@ public final class SohuStockHttpCommandService {
         }
 
 
-        if (CollectionUtils.isNotEmpty(excludeRightses)) {
+        if (null != excludeRightses) {
             excludeRightsCache.put(stockCode, excludeRightses);
             return excludeRightses;
         }

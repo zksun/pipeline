@@ -66,7 +66,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         fileCheckPassed = checkFileNotPass(file);
         try {
             return swallow(new FileInputStream(file));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw new IllegalArgumentException("file error", e);
         }
     }

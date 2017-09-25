@@ -6,6 +6,7 @@ import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -71,6 +72,18 @@ public final class StockUtil {
         }
         BigDecimal bigDecimal = new BigDecimal(total);
         return bigDecimal.divide(new BigDecimal(klineItems.size()), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(.7)).longValue();
+    }
+
+    public static byte[] writeExcludeRights(String stockCode, List<ExcludeRights> rightList) {
+        if (null == rightList) {
+            throw new NullPointerException("rightList");
+        }
+
+        if (!stockCode.matches("(sh|sz)(//d+)")) {
+            throw new IllegalArgumentException("wrong stock code");
+        }
+
+        return null;
     }
 
     private StockUtil() {
