@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,9 +111,8 @@ public final class StockUtil {
 
         int margin = 0;
 
-        int len = max(sellList.size(), buyList.size());
-        for (int i = 0; i < 2 * len; i++) {
-            if (sellIndex == sellList.size() - 1 || buyIndex == buyList.size() - 1) {
+        for (; ; ) {
+            if (sellIndex == sellList.size() || buyIndex == buyList.size()) {
                 break;
             }
             StockPrice sellPrice = sellList.get(sellIndex);
@@ -124,17 +124,23 @@ public final class StockUtil {
 
             if (margin > 0) {
                 buyIndex++;
-                margin = 0 - margin;
+                margin = margin - sellHand;
             } else if (margin < 0) {
                 sellIndex++;
+                margin = margin + buyHand;
             } else {
                 buyIndex++;
                 sellIndex++;
             }
         }
 
+        if (sellIndex < buyIndex) {
+            return sellList.subList(sellIndex, sellList.size());
+        } else if (sellIndex > buyIndex) {
+            return buyList.subList(buyIndex, buyList.size());
+        }
 
-        return null;
+        return Collections.emptyList();
     }
 
     private StockUtil() {

@@ -118,7 +118,7 @@ public class GetStockPriceTest {
                 for (StockPrice price : data) {
                     if (price.getTrade().equals(Trade.BUY)) {
                         buyList.add(price);
-                    } else {
+                    } else if (price.getTrade().equals(Trade.SELL)) {
                         sellList.add(price);
                     }
                 }
@@ -126,7 +126,7 @@ public class GetStockPriceTest {
             buyList.sort(new PriceComparators.PriceAscComparator());
             sellList.sort(new PriceComparators.PriceDesComparator());
 
-            compareSellBuyList(sellList,buyList);
+            List difference = compareSellBuyList(sellList, buyList);
 
             System.out.println("end");
         }
