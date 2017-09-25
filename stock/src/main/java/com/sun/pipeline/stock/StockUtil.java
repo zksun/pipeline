@@ -1,8 +1,6 @@
 package com.sun.pipeline.stock;
 
-import com.sun.pipeline.stock.domain.ExcludeRights;
-import com.sun.pipeline.stock.domain.ExcludeRightsWrapper;
-import com.sun.pipeline.stock.domain.KlineItem;
+import com.sun.pipeline.stock.domain.*;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 
 import java.io.File;
@@ -13,6 +11,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.apache.commons.lang3.ObjectUtils.max;
+import static org.apache.commons.lang3.ObjectUtils.min;
 
 /**
  * Created by zksun on 19/06/2017.
@@ -99,6 +100,39 @@ public final class StockUtil {
         if (!stockCode.matches("(sh|sz)(//d+)")) {
             throw new IllegalArgumentException("wrong stock code");
         }
+
+        return null;
+    }
+
+    public static List compareSellBuyList(List<StockPrice> sellList, List<StockPrice> buyList) {
+        int sellIndex = 0;
+        int buyIndex = 0;
+
+        int margin = 0;
+
+        int len = max(sellList.size(), buyList.size());
+        for (int i = 0; i < 2 * len; i++) {
+            if (sellIndex == sellList.size() - 1 || buyIndex == buyList.size() - 1) {
+                break;
+            }
+            StockPrice sellPrice = sellList.get(sellIndex);
+            StockPrice buyPrice = buyList.get(buyIndex);
+
+            int sellHand = sellPrice.getHand() + margin;
+            int buyHand = buyPrice.getHand();
+            margin = sellHand - buyHand;
+
+            if (margin > 0) {
+                buyIndex++;
+                margin = 0 - margin;
+            } else if (margin < 0) {
+                sellIndex++;
+            } else {
+                buyIndex++;
+                sellIndex++;
+            }
+        }
+
 
         return null;
     }

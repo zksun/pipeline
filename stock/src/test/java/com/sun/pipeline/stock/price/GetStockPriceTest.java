@@ -1,18 +1,18 @@
 package com.sun.pipeline.stock.price;
 
+import com.sun.pipeline.stock.calculate.PriceComparators;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.domain.StockPrice;
+import com.sun.pipeline.stock.domain.Trade;
 import com.sun.pipeline.stock.system.SystemConfig;
 import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;
 import org.junit.Test;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static com.sun.pipeline.stock.StockUtil.compareSellBuyList;
 import static com.sun.pipeline.stock.StockUtil.find;
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
 
@@ -111,13 +111,24 @@ public class GetStockPriceTest {
                 stockDayContainer.swallow(file);
                 containers.add(stockDayContainer);
             }
-            Map<String, StockPrice> priceMap = new HashMap<>();
+            List<StockPrice> buyList = new LinkedList<>();
+            List<StockPrice> sellList = new LinkedList<>();
             for (StockDayContainer container : containers) {
                 List<StockPrice> data = container.getData();
                 for (StockPrice price : data) {
-
+                    if (price.getTrade().equals(Trade.BUY)) {
+                        buyList.add(price);
+                    } else {
+                        sellList.add(price);
+                    }
                 }
             }
+            buyList.sort(new PriceComparators.PriceAscComparator());
+            sellList.sort(new PriceComparators.PriceDesComparator());
+
+            compareSellBuyList(sellList,buyList);
+
+            System.out.println("end");
         }
 
     }
