@@ -1,5 +1,6 @@
 package com.sun.pipeline.stock.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**

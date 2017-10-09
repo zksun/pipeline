@@ -11,21 +11,19 @@ import static java.util.Collections.sort;
  */
 public final class ExcludeRightsWrapper {
 
-    private final static Map<String, ExcludeRightsWrapper> cache = new HashMap<>();
 
-    private final List<ExcludeRights> excludeRightses;
+    private final List<ExcludeRights> excludeRights;
 
-    public static ExcludeRightsWrapper getInstance(List<ExcludeRights> list) {
+    public static ExcludeRightsWrapper getInstance(String stockCode, List<ExcludeRights> list) {
+        if (null == stockCode || stockCode.equals("")) {
+            throw new NullPointerException("stockCode");
+        }
         if (null == list) {
             throw new NullPointerException("list");
         }
-        String stockCode = getStockCode(list);
-        if (cache.containsKey(stockCode)) {
-            return cache.get(stockCode);
-        }
-        cache.put(stockCode, new ExcludeRightsWrapper(list));
-        return cache.get(stockCode);
+        return new ExcludeRightsWrapper(list);
     }
+
 
     private static String getStockCode(List<ExcludeRights> list) {
         return list.get(0).getStockCode();
@@ -33,12 +31,14 @@ public final class ExcludeRightsWrapper {
 
 
     private ExcludeRightsWrapper(List<ExcludeRights> list) {
-        this.excludeRightses = list;
+        this.excludeRights = list;
         sortList();
     }
 
     private void sortList() {
-        sort(excludeRightses, new ExcludeRightsComparator());
+        if (!excludeRights.isEmpty()) {
+            sort(excludeRights, new ExcludeRightsComparator());
+        }
     }
 
     public long calculateAdjustStockPrice(LocalDate tradeDate, long tradePrice) {
@@ -50,7 +50,7 @@ public final class ExcludeRightsWrapper {
             throw new IllegalArgumentException("error price");
         }
 
-        if (this.excludeRightses.isEmpty()) {
+        if (this.excludeRights.isEmpty()) {
             return tradePrice;
         }
 
@@ -90,21 +90,21 @@ public final class ExcludeRightsWrapper {
 
     private List<ExcludeRights> getExcludeRightsByDate(LocalDate date) {
         int index = 0;
-        for (ExcludeRights rights : this.excludeRightses) {
+        for (ExcludeRights rights : this.excludeRights) {
             if (date.isBefore(rights.getAdjustDay())) {
-                index = this.excludeRightses.size() - index;
+                index = this.excludeRights.size() - index;
                 break;
             }
             index++;
         }
-        if (index == this.excludeRightses.size()) {
+        if (index == this.excludeRights.size()) {
             return Collections.EMPTY_LIST;
         }
         return copySubListByIndex(index);
     }
 
     private List<ExcludeRights> copySubListByIndex(int index) {
-        return excludeRightses.subList(excludeRightses.size() - index, excludeRightses.size());
+        return excludeRights.subList(excludeRights.size() - index, excludeRights.size());
     }
 
     private static class ExcludeRightsComparator implements Comparator<ExcludeRights> {
