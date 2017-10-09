@@ -3,6 +3,7 @@ package com.sun.pipeline.stock.explorer.sohu;
 import com.sun.pipeline.stock.StockKlineStep;
 import com.sun.pipeline.stock.Time;
 import com.sun.pipeline.stock.domain.ExcludeRights;
+import com.sun.pipeline.stock.domain.ExcludeRightsWrapper;
 import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.util.internal.Platform;
 import com.sun.pipeline.util.internal.http.HttpGet;
@@ -50,7 +51,29 @@ public final class SohuStockHttpCommandService {
         return sohuStockHttpCommandService;
     }
 
+    public long calculateAdjustStockPrice(long price, String stockCode, LocalDate date) {
+        return this.calculateAdjustStockPrice(price, stockCode, date, HttpGet.getHttpGetInstance("http://q.stock.sohu.com", 80, "/qp/hq", 3));
+    }
 
+    public long calculateAdjustStockPrice(long price, String stockCode, LocalDate date, HttpGet httpGet) {
+        if (StringUtils.isBlank(stockCode)) {
+            throw new NullPointerException("stock code is null");
+        }
+        if (null == date) {
+            throw new NullPointerException("date is necessary");
+        }
+        if (null == httpGet) {
+            throw new NullPointerException("httpGet is necessary");
+        }
+
+        if (price < 1) {
+            throw new IllegalArgumentException("price");
+        }
+
+        List<ExcludeRights> excludeRightsInfo = getExcludeRightsInfo(httpGet, stockCode);
+        ExcludeRightsWrapper rightsWrapper = ExcludeRightsWrapper.getInstance(excludeRightsInfo);
+        return rightsWrapper.calculateAdjustStockPrice(date, price);
+    }
 
     public Long calculateAllotmentPrice(String stockCode, LocalDate date, HttpGet httpGet) {
         if (StringUtils.isBlank(stockCode)) {
