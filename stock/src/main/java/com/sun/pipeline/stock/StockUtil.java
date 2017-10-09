@@ -1,20 +1,19 @@
 package com.sun.pipeline.stock;
 
-import com.sun.pipeline.stock.domain.*;
+import com.sun.pipeline.stock.domain.ExcludeRights;
+import com.sun.pipeline.stock.domain.ExcludeRightsWrapper;
+import com.sun.pipeline.stock.domain.KlineItem;
+import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.apache.commons.lang3.ObjectUtils.max;
-import static org.apache.commons.lang3.ObjectUtils.min;
 
 /**
  * Created by zksun on 19/06/2017.
@@ -105,6 +104,15 @@ public final class StockUtil {
         return null;
     }
 
+    public static long getAVGPrice(List<StockPrice> priceList) {
+        double total = 0;
+        for (StockPrice price : priceList) {
+            total += price.getAuthorityPrice();
+        }
+        return (long) total / priceList.size();
+
+    }
+
     public static List<StockPrice> compareSellBuyList(List<StockPrice> sellList, List<StockPrice> buyList) {
 
         int sellIndex = 0;
@@ -142,6 +150,7 @@ public final class StockUtil {
 
         return Collections.emptyList();
     }
+
 
     private StockUtil() {
     }

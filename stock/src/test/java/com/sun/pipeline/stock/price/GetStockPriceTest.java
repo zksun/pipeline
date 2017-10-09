@@ -3,17 +3,18 @@ package com.sun.pipeline.stock.price;
 import com.sun.pipeline.stock.calculate.PriceComparators;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.domain.StockPrice;
-import com.sun.pipeline.stock.domain.Trade;
 import com.sun.pipeline.stock.system.SystemConfig;
 import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;
 import org.junit.Test;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-import static com.sun.pipeline.stock.StockUtil.compareSellBuyList;
 import static com.sun.pipeline.stock.StockUtil.find;
+import static com.sun.pipeline.stock.StockUtil.getAVGPrice;
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
 
 /**
@@ -142,5 +143,31 @@ public class GetStockPriceTest {
 
     }
 
+    @Test
+    public void oneStockDayPricesTrend() {
+        List<StockDayContainer> containers = new ArrayList<>();
+        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
+        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
+        List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
+        String stockCode = "sh601688";
+        File directory = find(stockCode, list);
+        if (null != directory) {
+            List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
+            for (File file : files) {
+                Stock stock = new Stock(directory.getName());
+                StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(file.getName()));
+                stockDayContainer.swallow(file);
+                containers.add(stockDayContainer);
+            }
+
+            for (StockDayContainer container : containers) {
+                List<StockPrice> data = container.getData();
+                long avgPrice = getAVGPrice(data);
+                System.out.println(avgPrice);
+            }
+        }
+
+        System.out.println("end");
+    }
 
 }

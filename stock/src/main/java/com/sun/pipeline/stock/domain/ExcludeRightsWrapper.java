@@ -25,9 +25,9 @@ public final class ExcludeRightsWrapper {
     }
 
 
-    private static String getStockCode(List<ExcludeRights> list) {
-        return list.get(0).getStockCode();
-    }
+//    private static String getStockCode(List<ExcludeRights> list) {
+//        return list.get(0).getStockCode();
+//    }
 
 
     private ExcludeRightsWrapper(List<ExcludeRights> list) {
