@@ -5,6 +5,7 @@ import com.sun.pipeline.stock.domain.ExcludeRightsWrapper;
 import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
+import com.sun.pipeline.stock.price.StockDayContainer;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -104,13 +105,12 @@ public final class StockUtil {
         return null;
     }
 
-    public static long getAVGPrice(List<StockPrice> priceList) {
+    public static long getDayContainerAVGPrice(List<StockDayContainer> containers) {
         double total = 0;
-        for (StockPrice price : priceList) {
-            total += price.getAuthorityPrice();
+        for (StockDayContainer container : containers) {
+            total += container.avgPrice();
         }
-        return (long) total / priceList.size();
-
+        return (long) total / containers.size();
     }
 
     public static List<StockPrice> compareSellBuyList(List<StockPrice> sellList, List<StockPrice> buyList) {

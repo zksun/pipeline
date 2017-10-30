@@ -40,6 +40,10 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
 
     private boolean fileCheckPassed;
 
+    private boolean isLi = false;
+
+    private long avgPrice = -1;
+
     public StockDayContainer(Stock stock, LocalDate dateTime) {
         this.stock = stock;
         this.dateTime = dateTime;
@@ -50,6 +54,11 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         this.stock = stock;
         this.dateTime = dateTime;
         this.authority = authority;
+    }
+
+
+    public LocalDate getDateTime() {
+        return dateTime;
     }
 
     @Override
@@ -88,12 +97,17 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             return this;
         }
         add(convert(inputStream));
-        if (isLi()) {
+        if (isLi == isLi()) {
             for (StockPrice price : this.prices) {
                 price.setPrice(price.getPrice() / 10);
                 price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), FORWARD_ANSWER_AUTHORITY));
             }
+        } else {
+            for (StockPrice price : this.prices) {
+                price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), FORWARD_ANSWER_AUTHORITY));
+            }
         }
+
         return this;
     }
 
@@ -104,6 +118,27 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
     public List<StockPrice> getData() {
         return prices;
     }
+
+    public int totalHand() {
+        int total = 0;
+        for (StockPrice price : prices) {
+            total += price.getHand();
+        }
+        return total;
+    }
+
+    public long avgPrice() {
+        if (this.avgPrice > 0) {
+            return this.avgPrice();
+        }
+        double total = 0;
+        for (StockPrice price : prices) {
+            total += price.getAuthorityPrice();
+        }
+        this.avgPrice = (long) total / prices.size();
+        return avgPrice;
+    }
+
 
     protected List<StockPrice> convert(InputStream inputStream) {
         byte[] buf = new byte[16];
@@ -131,7 +166,10 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         return list;
     }
 
-    private boolean isLi() {
+    public boolean isLi() {
+        if (isLi) {
+            return isLi;
+        }
         if (!this.prices.isEmpty()) {
             for (StockPrice price : prices) {
                 if (0 != (price.getPrice() % 10)) {
@@ -159,7 +197,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             stockPrice.setPrice((long) realPrice);
             stockPrice.setHand(hand);
             stockPrice.setTrade(buyOrSell);
-            stockPrice.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, realPrice, FORWARD_ANSWER_AUTHORITY));
+            //
             return stockPrice;
         } catch (Exception e) {
             throw new StockException("convert stock price error", e);
