@@ -16,7 +16,7 @@
 
         <!-- 连备库,密码从idb的db申请工单里取 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3360/stock"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/stock"
                         userId="root"
                         password="Sun@13844">
         </jdbcConnection>
@@ -29,26 +29,26 @@
         DO包路径
         -->
         <javaModelGenerator targetPackage="com.sun.pipeline.mybatis.domain"
-                            targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java">
+                            targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/test/src/test/java">
             <property name="enableSubPackages" value="true"/>
         </javaModelGenerator>
 
         <!-- mapper xml 文件路径-->
-        <sqlMapGenerator targetPackage="com.alibaba.scm.purchase.auto.xml"
-                         targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java">
+        <sqlMapGenerator targetPackage="com.sun.pipeline.mybatis.auto.xml"
+                         targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/test/src/test/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- DAO 路径-->
-        <javaClientGenerator targetPackage="com.sun.mybatis.dao"
-                             targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java"
+        <javaClientGenerator targetPackage="com.sun.pipeline.mybatis.dao"
+                             targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/test/src/test/java"
                              type="org.mybatis.generator.ext.MybatisDAOGenerator">
             <property name="enableSubPackages" value="true"/>
-            <property name="rootInterface" value="com.sun.mybatis.dao.GenericCrudDAO"/>
+            <property name="rootInterface" value="com.sun.pipeline.mybatis.dao.GenericCrudDAO"/>
         </javaClientGenerator>
 
         <!-- 指定库和表名，及生成的DO类名 -->
-        <table schema="stock" tableName="stock"
+        <table schema="stock" tableName="stock_base"
                domainObjectName="StockBaseDO"
                enableCountByExample="false"
                enableDeleteByExample="false"

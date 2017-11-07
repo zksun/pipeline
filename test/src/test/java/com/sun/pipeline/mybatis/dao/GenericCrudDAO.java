@@ -1,4 +1,4 @@
-package com.sun.mybatis.dao;
+package com.sun.pipeline.mybatis.dao;
 
 import java.util.List;
 
