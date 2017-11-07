@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <!-- 配置代码生成规则，建议生成的文件放到test目录，保持和main路径一样，避免文件被覆盖 -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <plugin type="org.mybatis.generator.ext.MybatisXmlMapperPlugin"/>
+        <commentGenerator
+                type="org.mybatis.generator.ext.MybatisCommentGenerator">
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 连备库,密码从idb的db申请工单里取 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3360/stock"
+                        userId="root"
+                        password="Sun@13844">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--
+        DO包路径
+        -->
+        <javaModelGenerator targetPackage="com.sun.pipeline.mybatis.domain"
+                            targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaModelGenerator>
+
+        <!-- mapper xml 文件路径-->
+        <sqlMapGenerator targetPackage="com.alibaba.scm.purchase.auto.xml"
+                         targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- DAO 路径-->
+        <javaClientGenerator targetPackage="com.alibaba.scm.purchase.core.dao"
+                             targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java"
+                             type="org.mybatis.generator.ext.MybatisDAOGenerator">
+            <property name="enableSubPackages" value="true" />
+            <property name="rootInterface" value="com.alibaba.scm.purchase.core.dao.GenericCrudDAO"/>
+        </javaClientGenerator>
+
+        <!-- 指定库和表名，及生成的DO类名 -->
+        <table schema="tm_scm_purchase" tableName="stock"
+               domainObjectName="AsnItemDO"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+                >
+        </table>
+
+    </context>
+</generatorConfiguration>
