@@ -27,7 +27,7 @@ public class MybatisAutoGenerator {
         ConfigurationParser configurationParser = new ConfigurationParser(warnings);
         Configuration configuration = configurationParser.parseConfiguration(
                 this.getClass().getClassLoader()
-                        .getResourceAsStream(""));
+                        .getResourceAsStream("mybatis-generator-config.xml"));
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(configuration, callback, warnings);
         myBatisGenerator.generate(null);

@@ -44,7 +44,7 @@
                              targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java"
                              type="org.mybatis.generator.ext.MybatisDAOGenerator">
             <property name="enableSubPackages" value="true"/>
-            <property name="rootInterface" value="com.alibaba.scm.purchase.core.dao.GenericCrudDAO"/>
+            <property name="rootInterface" value="com.sun.mybatis.dao.GenericCrudDAO"/>
         </javaClientGenerator>
 
         <!-- 指定库和表名，及生成的DO类名 -->

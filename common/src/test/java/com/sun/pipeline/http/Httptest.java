@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by zksun on 07/06/2017.
  */
-public class HttpTest {
+public class Httptest {
 
     private final static String DEFAULT_LOCAL = "cn";
 
