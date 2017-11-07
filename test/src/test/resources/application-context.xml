@@ -12,7 +12,7 @@
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
           p:location="config.properties"/>
 
-    <bean id="database" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
           p:driverClass="${jdbc.driverClassName}"
           p:jdbcUrl="${jdbc.url}"
           p:user="${jdbc.username}"
@@ -29,5 +29,8 @@
           p:testConnectionOnCheckin="false"
     />
 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
 </beans>
