@@ -11,5 +11,7 @@
 
     <artifactId>pipeline-mybatis</artifactId>
 
+    <dependencies>
 
+    </dependencies>
 </project>
