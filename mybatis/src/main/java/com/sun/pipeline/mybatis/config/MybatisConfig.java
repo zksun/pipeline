@@ -1,4 +1,4 @@
-package com.sun.pipeline.mybatis;
+package com.sun.pipeline.mybatis.config;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;

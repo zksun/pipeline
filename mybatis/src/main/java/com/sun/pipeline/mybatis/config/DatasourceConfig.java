@@ -1,4 +1,4 @@
-package com.sun.pipeline.mybatis;
+package com.sun.pipeline.mybatis.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Value;

@@ -12,6 +12,7 @@
     <artifactId>pipeline-mybatis</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
@@ -24,5 +25,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
     </dependencies>
 </project>

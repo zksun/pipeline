@@ -11,21 +11,25 @@
 
     <context:property-placeholder location="classpath*:config.properties"/>
 
+    <bean class="com.sun.pipeline.mybatis.MybatisConfig"/>
+    <bean class="com.sun.pipeline.mybatis.DatasourceConfig"/>
+
+
     <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"-->
-          <!--p:driverClass="${jdbc.driverClassName}"-->
-          <!--p:jdbcUrl="${jdbc.url}"-->
-          <!--p:user="${jdbc.username}"-->
-          <!--p:password="${jdbc.password}"-->
-          <!--p:minPoolSize="10"-->
-          <!--p:maxPoolSize="100"-->
-          <!--p:maxIdleTime="1800"-->
-          <!--p:acquireIncrement="3"-->
-          <!--p:maxStatements="1000"-->
-          <!--p:initialPoolSize="10"-->
-          <!--p:idleConnectionTestPeriod="60"-->
-          <!--p:acquireRetryAttempts="30"-->
-          <!--p:breakAfterAcquireFailure="true"-->
-          <!--p:testConnectionOnCheckin="false"-->
+    <!--p:driverClass="${jdbc.driverClassName}"-->
+    <!--p:jdbcUrl="${jdbc.url}"-->
+    <!--p:user="${jdbc.username}"-->
+    <!--p:password="${jdbc.password}"-->
+    <!--p:minPoolSize="10"-->
+    <!--p:maxPoolSize="100"-->
+    <!--p:maxIdleTime="1800"-->
+    <!--p:acquireIncrement="3"-->
+    <!--p:maxStatements="1000"-->
+    <!--p:initialPoolSize="10"-->
+    <!--p:idleConnectionTestPeriod="60"-->
+    <!--p:acquireRetryAttempts="30"-->
+    <!--p:breakAfterAcquireFailure="true"-->
+    <!--p:testConnectionOnCheckin="false"-->
     <!--/>-->
 
     <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
