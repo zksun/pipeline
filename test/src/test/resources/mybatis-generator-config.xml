@@ -40,21 +40,21 @@
         </sqlMapGenerator>
 
         <!-- DAO 路径-->
-        <javaClientGenerator targetPackage="com.alibaba.scm.purchase.core.dao"
+        <javaClientGenerator targetPackage="com.sun.mybatis.dao"
                              targetProject="/Users/zhikunsun/Documents/IdeaProjects/pipeline/mybatis/src/test/java"
                              type="org.mybatis.generator.ext.MybatisDAOGenerator">
-            <property name="enableSubPackages" value="true" />
+            <property name="enableSubPackages" value="true"/>
             <property name="rootInterface" value="com.alibaba.scm.purchase.core.dao.GenericCrudDAO"/>
         </javaClientGenerator>
 
         <!-- 指定库和表名，及生成的DO类名 -->
-        <table schema="tm_scm_purchase" tableName="stock"
-               domainObjectName="AsnItemDO"
+        <table schema="stock" tableName="stock"
+               domainObjectName="StockBaseDO"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"
-                >
+        >
         </table>
 
     </context>

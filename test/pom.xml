@@ -35,5 +35,11 @@
             <version>1.2.1</version>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.sun.pipeline</groupId>
+            <artifactId>pipeline-mybatis</artifactId>
+        </dependency>
     </dependencies>
 </project>

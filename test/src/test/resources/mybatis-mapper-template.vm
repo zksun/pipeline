@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="$!{namespace}" >
+
+    <resultMap id="${resultMapId}" type="$!{shortTypeName}" >
+        #foreach($column in $columns)
+            #if(${column.left}=="id")
+                <id column="${column.left}" property="${column.right}" />
+            #else
+                <result column="${column.left}" property="${column.right}" />
+            #end
+        #end
+
+    </resultMap>
+
+    <sql id="all_column_list" >
+        #foreach($column in $!columnsName)
+            ${column}#if($velocityCount != $columnsName.size()),#end
+
+        #end
+    </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <insert id="insert" parameterType="$!{shortTypeName}" >
+        <selectKey keyProperty="id" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into $!{tableName} (
+        <include refid="all_column_list" />
+        )
+        values (
+        #foreach($val in $!insertValues)
+            ${val}#if($velocityCount != $insertValues.size()),#end
+
+        #end
+        )
+    </insert>
+
+    <!--
+		开发负责人：
+		功能说明：根据主键查询
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="queryById" resultType="$!{shortTypeName}" parameterType="java.lang.Long" >
+        select
+        <include refid="all_column_list" />
+        from $!{tableName}
+        where id = #{id}
+    </select>
+
+    <sql id="base_where_clause" >
+        <where >
+            #foreach($testClause in $!{whereClauses})
+                <if test = "$testClause.left">
+                    and $testClause.right
+                </if>
+            #end
+        </where>
+    </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件：
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="query" resultType="$!{shortTypeName}" >
+        select
+        <include refid="all_column_list" />
+        from $!{tableName}
+        <include refid="base_where_clause" />
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件:
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="count" resultType="java.lang.Integer" >
+        select count(*) from $!{tableName}
+        <include refid="base_where_clause" />
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <update id="update" parameterType="$!{shortTypeName}" >
+        update $!{tableName}
+        <set >
+            gmt_modified = now(),
+            #foreach($testClause in $!{whereClauses})
+                <if test = "$testClause.left">
+                    ${testClause.right}#if($velocityCount != $whereClauses.size()),#end
+                </if>
+            #end
+        </set>
+        where id = #{id}
+         <if test = "rowVersion !=null ">
+            and row_version = #{rowVersion}
+         </if>
+    </update>
+</mapper>
