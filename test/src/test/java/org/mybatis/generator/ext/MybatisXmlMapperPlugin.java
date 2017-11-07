@@ -1,4 +1,4 @@
-package org.mybatis.genertor.ext;
+package org.mybatis.generator.ext;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
