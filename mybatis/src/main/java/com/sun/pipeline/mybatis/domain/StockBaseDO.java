@@ -4,37 +4,37 @@ import java.util.Date;
 
 public class StockBaseDO {
     /**
-     *  
+     *
      */
     private Long id;
 
     /**
-     *  
+     *
      */
     private Integer code;
 
     /**
-     *  
+     *
      */
     private Date time;
 
     /**
-     *  
+     *
      */
     private Long price;
 
     /**
-     *  
+     *
      */
     private Long exright;
 
     /**
-     *  
+     *
      */
     private Integer hand;
 
     /**
-     *  
+     *
      */
     private Byte wish;
 
@@ -92,5 +92,18 @@ public class StockBaseDO {
 
     public void setWish(Byte wish) {
         this.wish = wish;
+    }
+
+    @Override
+    public String toString() {
+        return "StockBaseDO{" +
+                "id=" + id +
+                ", code=" + code +
+                ", time=" + time +
+                ", price=" + price +
+                ", exright=" + exright +
+                ", hand=" + hand +
+                ", wish=" + wish +
+                '}';
     }
 }
