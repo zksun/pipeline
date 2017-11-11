@@ -21,6 +21,11 @@ import java.util.regex.Pattern;
  */
 public final class StockUtil {
 
+    /**
+     * 得到交易自信的时间
+     * @param source
+     * @return
+     */
     public static int getRealSequence(int source) {
         if (source < 780) {
             return source - 570;
@@ -29,6 +34,12 @@ public final class StockUtil {
         }
     }
 
+    /**
+     * 通过股票代码得到股票文件
+     * @param stockCode
+     * @param stockDirectory
+     * @return
+     */
     public static File find(String stockCode, List<File> stockDirectory) {
         if (null == stockCode || stockCode.equals("")) {
             throw new NullPointerException("stock code");
@@ -45,6 +56,14 @@ public final class StockUtil {
         return null;
     }
 
+    /**
+     * 计算复权价
+     * @param stockCode
+     * @param time
+     * @param source
+     * @param authority
+     * @return
+     */
     public static long calculateAuthorityPrice(String stockCode, LocalDate time, long source, Authority authority) {
         switch (authority) {
             case FORWARD_ANSWER_AUTHORITY: {
@@ -73,6 +92,11 @@ public final class StockUtil {
         return "";
     }
 
+    /**
+     * 得到sh600001类似这样的股票代码的数字部分
+     * @param code
+     * @return
+     */
     public static LocalDate getRealTime(String code) {
         if (null == code || code.equals("")) {
             throw new NullPointerException("code");
@@ -105,6 +129,11 @@ public final class StockUtil {
         return null;
     }
 
+    /**
+     * 计算日平均价格
+     * @param containers
+     * @return
+     */
     public static long getDayContainerAVGPrice(List<StockDayContainer> containers) {
         double total = 0;
         for (StockDayContainer container : containers) {
@@ -113,6 +142,12 @@ public final class StockUtil {
         return (long) total / containers.size();
     }
 
+    /**
+     * 这是一个我都已经忘记的算法,看不懂是为了什么而写了,没有写注释,真他妈的蛋疼,不删除它,放在这里,让自己难受,这也好是一个教训
+     * @param sellList
+     * @param buyList
+     * @return
+     */
     public static List<StockPrice> compareSellBuyList(List<StockPrice> sellList, List<StockPrice> buyList) {
 
         int sellIndex = 0;
