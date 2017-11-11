@@ -1,7 +1,9 @@
 package com.sun.pipeline.mybatis;
 
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
+import com.sun.pipeline.mybatis.dao.StockCodeDAO;
 import com.sun.pipeline.mybatis.domain.StockBaseDO;
+import com.sun.pipeline.mybatis.domain.StockCodeDO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +20,8 @@ import java.util.Date;
 public class DatabaseDAOTest {
     @Resource
     private StockBaseDAO stockBaseDAO;
+    @Resource
+    private StockCodeDAO stockCodeDAO;
 
     @Test
     public void queryTest() {
@@ -26,7 +30,7 @@ public class DatabaseDAOTest {
     }
 
     @Test
-    public void insertTest() {
+    public void insertStockBaseDOTest() {
         StockBaseDO stockBaseDO = new StockBaseDO();
         stockBaseDO.setCode(600010);
         stockBaseDO.setExright(10000L);
@@ -37,5 +41,15 @@ public class DatabaseDAOTest {
         stockBaseDAO.insert(stockBaseDO);
         System.out.println("end");
     }
+
+    @Test
+    public void insertStockCodeDOTest() {
+        StockCodeDO stockCodeDO = new StockCodeDO();
+        stockCodeDO.setCode(600001);
+        stockCodeDO.setFullName("sh600001");
+        stockCodeDO.setMacket("sh");
+        stockCodeDAO.insert(stockCodeDO);
+    }
+
 
 }
