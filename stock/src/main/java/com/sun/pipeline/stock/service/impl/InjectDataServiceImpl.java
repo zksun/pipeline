@@ -1,7 +1,9 @@
 package com.sun.pipeline.stock.service.impl;
 
+import com.sun.pipeline.mybatis.dao.StockBaseDAO;
 import com.sun.pipeline.stock.service.InjectDataService;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 
 /**
@@ -10,6 +12,9 @@ import java.time.LocalDate;
 public class InjectDataServiceImpl implements InjectDataService {
 
     private String path;
+
+    @Resource
+    private StockBaseDAO stockBaseDAO;
 
     @Override
     public boolean injectStockData(String stockCode, LocalDate start, LocalDate end) {
