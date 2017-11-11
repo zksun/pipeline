@@ -100,11 +100,11 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         if (isLi == isLi()) {
             for (StockPrice price : this.prices) {
                 price.setPrice(price.getPrice() / 10);
-                price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), FORWARD_ANSWER_AUTHORITY));
+                price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), authority));
             }
         } else {
             for (StockPrice price : this.prices) {
-                price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), FORWARD_ANSWER_AUTHORITY));
+                price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), authority));
             }
         }
 

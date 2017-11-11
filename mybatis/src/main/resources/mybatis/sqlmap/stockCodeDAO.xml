@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sun.pipeline.mybatis.dao.StockCodeDAO" >
+
+    <resultMap id="StockCodeResultMap" type="StockCodeDO" >
+                                    <id column="id" property="id" />
+                                                <result column="full_name" property="fullName" />
+                                                <result column="code" property="code" />
+                                                <result column="macket" property="macket" />
+                    
+    </resultMap>
+
+    <sql id="all_column_list" >
+                    id,
+                    full_name,
+                    code,
+                    macket
+            </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <insert id="insert" parameterType="StockCodeDO" >
+        <selectKey keyProperty="id" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into stock_code (
+        <include refid="all_column_list" />
+        )
+        values (
+                    #{id},
+                    #{fullName},
+                    #{code},
+                    #{macket}
+                )
+    </insert>
+
+    <!--
+		开发负责人：
+		功能说明：根据主键查询
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="queryById" resultType="StockCodeDO" parameterType="java.lang.Long" >
+        select
+        <include refid="all_column_list" />
+        from stock_code
+        where id = #{id}
+    </select>
+
+    <sql id="base_where_clause" >
+        <where >
+                            <if test = "id != null">
+                    and id = #{id}
+                </if>
+                            <if test = "fullName != null and fullName != '' ">
+                    and full_name = #{fullName}
+                </if>
+                            <if test = "code != null">
+                    and code = #{code}
+                </if>
+                            <if test = "macket != null and macket != '' ">
+                    and macket = #{macket}
+                </if>
+                    </where>
+    </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件：
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="query" resultType="StockCodeDO" >
+        select
+        <include refid="all_column_list" />
+        from stock_code
+        <include refid="base_where_clause" />
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件:
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="count" resultType="java.lang.Integer" >
+        select count(*) from stock_code
+        <include refid="base_where_clause" />
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <update id="update" parameterType="StockCodeDO" >
+        update stock_code
+        <set >
+            gmt_modified = now(),
+                            <if test = "id != null">
+                    id = #{id},                </if>
+                            <if test = "fullName != null and fullName != '' ">
+                    full_name = #{fullName},                </if>
+                            <if test = "code != null">
+                    code = #{code},                </if>
+                            <if test = "macket != null and macket != '' ">
+                    macket = #{macket}                </if>
+                    </set>
+        where id = #{id}
+         <if test = "rowVersion !=null ">
+            and row_version = #{rowVersion}
+         </if>
+    </update>
+</mapper>
