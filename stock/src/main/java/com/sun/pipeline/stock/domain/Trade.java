@@ -12,6 +12,10 @@ public enum Trade {
         this.code = code;
     }
 
+    public short getCode() {
+        return code;
+    }
+
     public static Trade getTradeByCode(short code) {
         switch (code) {
             case 0:

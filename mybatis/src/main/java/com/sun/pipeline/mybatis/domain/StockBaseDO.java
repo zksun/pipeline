@@ -11,7 +11,7 @@ public class StockBaseDO {
     /**
      *
      */
-    private Integer code;
+    private String code;
 
     /**
      *
@@ -46,11 +46,11 @@ public class StockBaseDO {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
