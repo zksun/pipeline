@@ -32,7 +32,7 @@ public class DatabaseDAOTest {
     @Test
     public void insertStockBaseDOTest() {
         StockBaseDO stockBaseDO = new StockBaseDO();
-        stockBaseDO.setCode(600010);
+        stockBaseDO.setCode("sh600001");
         stockBaseDO.setExright(10000L);
         stockBaseDO.setPrice(10002L);
         stockBaseDO.setHand(100);

@@ -51,6 +51,28 @@
         )
     </insert>
 
+    <insert id="batchInsert" parameterType="java.util.List">
+        <selectKey keyProperty="id" resultType="java.lang.Long"
+                   order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into stock_base (
+        <include refid="all_column_list"/>
+        )
+        values
+        <foreach collection="list" item="stockBaseDO" index="index" separator=",">
+            (
+            #{stockBaseDO.id},
+            #{stockBaseDO.code},
+            #{stockBaseDO.time},
+            #{stockBaseDO.price},
+            #{stockBaseDO.exright},
+            #{stockBaseDO.hand},
+            #{stockBaseDO.wish}
+            )
+        </foreach>
+    </insert>
+
     <!--
 		开发负责人：
 		功能说明：根据主键查询

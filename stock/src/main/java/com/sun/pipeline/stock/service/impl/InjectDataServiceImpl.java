@@ -18,6 +18,8 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
 
@@ -58,7 +60,12 @@ public class InjectDataServiceImpl implements InjectDataService {
         }
         if (!containers.isEmpty()) {
             for (StockDayContainer container : containers) {
-                mainThreadPool.execute(new BaseDayCommand(container, stockBaseDAO));
+                try {
+                    mainThreadPool.submit(new BaseDayCommand(container, stockBaseDAO)).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
             }
             return true;
         }

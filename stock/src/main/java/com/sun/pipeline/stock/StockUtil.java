@@ -12,6 +12,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -87,6 +88,7 @@ public final class StockUtil {
             if (stockCode.equals(directory.getName())) {
                 List<File> files = fileOperator.allTradeFile(directory);
                 if (null != files && !files.isEmpty()) {
+                    result = new ArrayList<>();
                     for (File trade : files) {
                         LocalDate realTime = StockUtil.getRealTime(trade.getName().trim());
                         if (start.isEqual(realTime) || end.isEqual(realTime)) {
