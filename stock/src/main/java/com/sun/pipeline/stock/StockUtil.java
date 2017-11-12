@@ -6,7 +6,6 @@ import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 import com.sun.pipeline.stock.price.StockDayContainer;
-import com.sun.pipeline.util.internal.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
