@@ -47,9 +47,17 @@ public class DatabaseDAOTest {
         StockCodeDO stockCodeDO = new StockCodeDO();
         stockCodeDO.setCode(600001);
         stockCodeDO.setFullName("sh600001");
-        stockCodeDO.setMacket("sh");
+        stockCodeDO.setMarket("sh");
         stockCodeDAO.insert(stockCodeDO);
     }
+
+    @Test
+    public void queryStockCodeDOTest(){
+        StockCodeDO stockCodeDO = stockCodeDAO.queryById(5L);
+        System.out.println(stockCodeDO);
+    }
+
+
 
 
 }

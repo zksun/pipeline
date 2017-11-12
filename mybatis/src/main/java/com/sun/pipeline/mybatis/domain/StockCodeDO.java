@@ -2,24 +2,24 @@ package com.sun.pipeline.mybatis.domain;
 
 public class StockCodeDO {
     /**
-     *  
+     *
      */
     private Long id;
 
     /**
-     *  
+     *
      */
     private String fullName;
 
     /**
-     *  
+     *
      */
     private Integer code;
 
     /**
-     *  
+     *
      */
-    private String macket;
+    private String market;
 
     public Long getId() {
         return id;
@@ -45,11 +45,21 @@ public class StockCodeDO {
         this.code = code;
     }
 
-    public String getMacket() {
-        return macket;
+    public String getMarket() {
+        return market;
     }
 
-    public void setMacket(String macket) {
-        this.macket = macket;
+    public void setMarket(String market) {
+        this.market = market;
+    }
+
+    @Override
+    public String toString() {
+        return "StockCodeDO{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", code=" + code +
+                ", market='" + market + '\'' +
+                '}';
     }
 }

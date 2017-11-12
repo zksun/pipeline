@@ -36,7 +36,7 @@
         )
         values (
                     #{id},
-                    #{fullName},
+                    #{full_name},
                     #{code},
                     #{market}
                 )
@@ -52,11 +52,11 @@
 		缓存失效时间：
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
-    <select id="queryById" resultType="StockCodeDO" parameterType="java.lang.String" >
+    <select id="queryById" resultType="StockCodeDO" parameterType="java.lang.Long" >
         select
         <include refid="all_column_list" />
         from stock_code
-        where full_name = #{fullName}
+        where id = #{id}
     </select>
 
     <sql id="base_where_clause" >
@@ -106,7 +106,7 @@
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
     <select id="count" resultType="java.lang.Integer" >
-        select count(*) from stock_code
+        select count(1) from stock_code
         <include refid="base_where_clause" />
     </select>
 

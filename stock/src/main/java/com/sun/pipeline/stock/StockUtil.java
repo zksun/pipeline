@@ -23,6 +23,7 @@ public final class StockUtil {
 
     /**
      * 得到交易自信的时间
+     *
      * @param source
      * @return
      */
@@ -36,6 +37,7 @@ public final class StockUtil {
 
     /**
      * 通过股票代码得到股票文件
+     *
      * @param stockCode
      * @param stockDirectory
      * @return
@@ -58,6 +60,7 @@ public final class StockUtil {
 
     /**
      * 计算复权价
+     *
      * @param stockCode
      * @param time
      * @param source
@@ -92,8 +95,21 @@ public final class StockUtil {
         return "";
     }
 
+    public static String getMarket(String code) {
+        if (null == code || code.equals("")) {
+            throw new NullPointerException("code");
+        }
+        Matcher matcher = Pattern.compile("(sz|sh)(\\d+)").matcher(code);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+
     /**
      * 得到sh600001类似这样的股票代码的数字部分
+     *
      * @param code
      * @return
      */
@@ -131,6 +147,7 @@ public final class StockUtil {
 
     /**
      * 计算日平均价格
+     *
      * @param containers
      * @return
      */
@@ -144,6 +161,7 @@ public final class StockUtil {
 
     /**
      * 这是一个我都已经忘记的算法,看不懂是为了什么而写了,没有写注释,真他妈的蛋疼,不删除它,放在这里,让自己难受,这也好是一个教训
+     *
      * @param sellList
      * @param buyList
      * @return
@@ -185,8 +203,6 @@ public final class StockUtil {
 
         return Collections.emptyList();
     }
-
-
 
 
     private StockUtil() {

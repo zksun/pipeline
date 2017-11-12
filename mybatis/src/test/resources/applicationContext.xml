@@ -11,7 +11,7 @@
 
     <context:property-placeholder location="classpath*:jdbc.properties"/>
 
-    <bean class="com.sun.pipeline.mybatis.config.MybatisConfig"/>
-    <bean class="com.sun.pipeline.mybatis.config.DatasourceConfig"/>
+    <bean class="com.sun.pipeline.mybatis.config.MybatisConfigTester"/>
+    <bean class="com.sun.pipeline.mybatis.config.DatasourceConfigTester"/>
 
 </beans>
