@@ -4,4 +4,6 @@ import com.sun.pipeline.mybatis.domain.StockCodeDO;
 
 public interface StockCodeDAO extends GenericCrudDAO<StockCodeDO> {
     StockCodeDO queryById(String id);
+
+    int clear();
 }

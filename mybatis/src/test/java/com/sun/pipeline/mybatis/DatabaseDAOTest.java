@@ -52,12 +52,16 @@ public class DatabaseDAOTest {
     }
 
     @Test
-    public void queryStockCodeDOTest(){
+    public void queryStockCodeDOTest() {
         StockCodeDO stockCodeDO = stockCodeDAO.queryById(5L);
         System.out.println(stockCodeDO);
     }
 
-
+    @Test
+    public void deleteStockCode() {
+        stockCodeDAO.clear();
+        System.out.println("end");
+    }
 
 
 }

@@ -10,7 +10,6 @@ import com.sun.pipeline.stock.price.StockDayContainer;
 import com.sun.pipeline.stock.service.InjectDataService;
 import com.sun.pipeline.stock.system.SystemConfig;
 import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -44,6 +43,7 @@ public class InjectDataServiceImpl implements InjectDataService {
 
     @Override
     public boolean injectAllStockCode() {
+        stockCodeDAO.clear();
         List<File> files = fileOperator.allDirectory();
         if (!files.isEmpty()) {
             List<StockCodeDO> stockCodeDOs = new ArrayList<>();
@@ -55,6 +55,7 @@ public class InjectDataServiceImpl implements InjectDataService {
                 stockCodeDO.setCode(Integer.valueOf(code));
                 stockCodeDO.setMarket(market);
                 stockCodeDO.setFullName(fullName);
+                stockCodeDOs.add(stockCodeDO);
             }
             stockCodeDAO.batchInsert(stockCodeDOs);
             return true;
