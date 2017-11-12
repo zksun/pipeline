@@ -69,7 +69,7 @@ public final class StockUtil {
      * @param fileOperator
      * @return
      */
-    public List<File> find(String stockCode, List<File> source, LocalDate start, LocalDate end, StockFileOperator fileOperator) {
+    public static List<File> find(String stockCode, List<File> source, LocalDate start, LocalDate end, StockFileOperator fileOperator) {
         if (StringUtils.isBlank(stockCode)) {
             throw new NullPointerException("stock code");
         }

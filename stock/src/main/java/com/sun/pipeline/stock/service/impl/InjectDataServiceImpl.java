@@ -46,7 +46,22 @@ public class InjectDataServiceImpl implements InjectDataService {
         List<StockDayContainer> containers = new ArrayList<>();
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
-        List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
+        List<File> files = StockUtil.find(stockCode, defaultFileOperator.allDirectory((dir, name)
+                -> name.matches("(sz|sh)(\\d+)")), start, end, fileOperator);
+        if (null != files && !files.isEmpty()) {
+            for (File day : files) {
+                Stock stock = new Stock(day.getParentFile().getName());
+                StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
+                stockDayContainer.swallow(day);
+                containers.add(stockDayContainer);
+            }
+        }
+        if (!containers.isEmpty()) {
+            for (StockDayContainer container : containers) {
+                mainThreadPool.execute(new BaseDayCommand(container, stockBaseDAO));
+            }
+            return true;
+        }
 
         return false;
     }
@@ -72,8 +87,6 @@ public class InjectDataServiceImpl implements InjectDataService {
         }
         return false;
     }
-
-
 
 
     private List<StockDayContainer> getAllDayContainers() {
