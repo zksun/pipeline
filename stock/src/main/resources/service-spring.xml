@@ -7,15 +7,6 @@
              http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     <description>spring database test</description>
 
-    <context:annotation-config/>
-
-    <context:property-placeholder location="classpath*:jdbc.properties"/>
-
-    <bean class="com.sun.pipeline.mybatis.config.MybatisConfig"/>
-    <bean class="com.sun.pipeline.mybatis.config.DatasourceConfig"/>
-
     <bean name="injectDataService" class="com.sun.pipeline.stock.service.impl.InjectDataServiceImpl"/>
 
-    <import resource="executors-spring.xml"/>
-    <import resource="service-spring.xml"/>
 </beans>

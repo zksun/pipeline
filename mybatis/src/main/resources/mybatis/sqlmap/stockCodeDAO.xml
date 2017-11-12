@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sun.pipeline.mybatis.dao.StockCodeDAO" >
+<mapper namespace="com.sun.pipeline.mybatis.dao.StockCodeDAO">
 
-    <resultMap id="StockCodeResultMap" type="StockCodeDO" >
-                                    <id column="id" property="id" />
-                                                <result column="full_name" property="fullName" />
-                                                <result column="code" property="code" />
-                                                <result column="market" property="market" />
-                    
+    <resultMap id="StockCodeResultMap" type="StockCodeDO">
+        <id column="id" property="id"/>
+        <result column="full_name" property="fullName"/>
+        <result column="code" property="code"/>
+        <result column="market" property="market"/>
+
     </resultMap>
 
-    <sql id="all_column_list" >
+    <sql id="all_column_list">
                     id,
                     full_name,
                     code,
                     market
-            </sql>
+     </sql>
 
     <!--
 		开发负责人：
@@ -27,19 +27,38 @@
 		缓存失效时间：
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
-    <insert id="insert" parameterType="StockCodeDO" >
+    <insert id="insert" parameterType="StockCodeDO">
         <selectKey keyProperty="id" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
         insert into stock_code (
-        <include refid="all_column_list" />
+        <include refid="all_column_list"/>
         )
         values (
-                    #{id},
-                    #{fullName},
-                    #{code},
-                    #{market}
-                )
+        #{id},
+        #{fullName},
+        #{code},
+        #{market}
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        <selectKey keyProperty="id" resultType="java.lang.Long"
+                   order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into stock_code (
+        <include refid="all_column_list"/>
+        )
+        values
+        <foreach collection="list" item="stockCodeDO" index="index" separator=",">
+            (
+            #{stockCodeDO.id},
+            #{stockCodeDO.fullName},
+            #{stockCodeDO.code},
+            #{stockCodeDO.market}
+            )
+        </foreach>
     </insert>
 
     <!--
@@ -52,28 +71,28 @@
 		缓存失效时间：
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
-    <select id="queryById" resultType="StockCodeDO" parameterType="java.lang.String" >
+    <select id="queryById" resultType="StockCodeDO" parameterType="java.lang.String">
         select
-        <include refid="all_column_list" />
+        <include refid="all_column_list"/>
         from stock_code
         where full_name = #{fullName}
     </select>
 
-    <sql id="base_where_clause" >
-        <where >
-                            <if test = "id != null">
-                    and id = #{id}
-                </if>
-                            <if test = "fullName != null and fullName != '' ">
-                    and full_name = #{fullName}
-                </if>
-                            <if test = "code != null">
-                    and code = #{code}
-                </if>
-                            <if test = "market != null and market != '' ">
-                    and market = #{market}
-                </if>
-                    </where>
+    <sql id="base_where_clause">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="fullName != null and fullName != '' ">
+                and full_name = #{fullName}
+            </if>
+            <if test="code != null">
+                and code = #{code}
+            </if>
+            <if test="market != null and market != '' ">
+                and market = #{market}
+            </if>
+        </where>
     </sql>
 
     <!--
@@ -87,11 +106,11 @@
 		缓存失效时间：
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
-    <select id="query" resultType="StockCodeDO" >
+    <select id="query" resultType="StockCodeDO">
         select
-        <include refid="all_column_list" />
+        <include refid="all_column_list"/>
         from stock_code
-        <include refid="base_where_clause" />
+        <include refid="base_where_clause"/>
     </select>
 
     <!--
@@ -105,9 +124,9 @@
 		缓存失效时间：
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
-    <select id="count" resultType="java.lang.Integer" >
+    <select id="count" resultType="java.lang.Integer">
         select count(*) from stock_code
-        <include refid="base_where_clause" />
+        <include refid="base_where_clause"/>
     </select>
 
     <!--
@@ -120,22 +139,30 @@
 		缓存失效时间：
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
-    <update id="update" parameterType="StockCodeDO" >
+    <update id="update" parameterType="StockCodeDO">
         update stock_code
-        <set >
+        <set>
             gmt_modified = now(),
-                            <if test = "id != null">
-                    id = #{id},                </if>
-                            <if test = "fullName != null and fullName != '' ">
-                    full_name = #{fullName},                </if>
-                            <if test = "code != null">
-                    code = #{code},                </if>
-                            <if test = "market != null and market != '' ">
-                    market = #{market}                </if>
-                    </set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="fullName != null and fullName != '' ">
+                full_name = #{fullName},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="market != null and market != '' ">
+                market = #{market}
+            </if>
+        </set>
         where id = #{id}
-         <if test = "rowVersion !=null ">
+        <if test="rowVersion !=null ">
             and row_version = #{rowVersion}
-         </if>
+        </if>
+    </update>
+
+    <update id="clear">
+        truncate table stock_code
     </update>
 </mapper>
