@@ -21,5 +21,9 @@ public class StockFileOperator {
         return fileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\w+)"));
     }
 
+    public List<File> allTradeFile(File directory) {
+        return fileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
+    }
+
 
 }

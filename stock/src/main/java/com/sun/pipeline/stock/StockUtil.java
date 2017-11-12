@@ -6,6 +6,8 @@ import com.sun.pipeline.stock.domain.KlineItem;
 import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 import com.sun.pipeline.stock.price.StockDayContainer;
+import com.sun.pipeline.util.internal.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -56,6 +58,49 @@ public final class StockUtil {
             }
         }
         return null;
+    }
+
+    /**
+     * 查找符合stock code以及在给定时间范围内的数据信息
+     *
+     * @param stockCode
+     * @param source
+     * @param start
+     * @param end
+     * @param fileOperator
+     * @return
+     */
+    public List<File> find(String stockCode, List<File> source, LocalDate start, LocalDate end, StockFileOperator fileOperator) {
+        if (StringUtils.isBlank(stockCode)) {
+            throw new NullPointerException("stock code");
+        }
+        if (null == source || source.isEmpty()) {
+            throw new NullPointerException("file list");
+        }
+        if (null == start || null == end) {
+            throw new NullPointerException("time");
+        }
+        if (null == fileOperator) {
+            throw new NullPointerException("file operator");
+        }
+        List<File> result = Collections.EMPTY_LIST;
+        for (File directory : source) {
+            if (stockCode.equals(directory.getName())) {
+                List<File> files = fileOperator.allTradeFile(directory);
+                if (null != files && !files.isEmpty()) {
+                    for (File trade : files) {
+                        LocalDate realTime = StockUtil.getRealTime(trade.getName().trim());
+                        if (start.isEqual(realTime) || end.isEqual(realTime)) {
+                            result.add(trade);
+                        } else if (start.isBefore(realTime) && end.isAfter(realTime)) {
+                            result.add(trade);
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     /**
