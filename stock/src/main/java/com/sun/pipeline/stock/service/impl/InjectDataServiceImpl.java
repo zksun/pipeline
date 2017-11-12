@@ -5,11 +5,13 @@ import com.sun.pipeline.mybatis.dao.StockCodeDAO;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
 import com.sun.pipeline.stock.StockFileOperator;
 import com.sun.pipeline.stock.StockUtil;
+import com.sun.pipeline.stock.command.BaseDayCommand;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.price.StockDayContainer;
 import com.sun.pipeline.stock.service.InjectDataService;
 import com.sun.pipeline.stock.system.SystemConfig;
 import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -32,12 +34,20 @@ public class InjectDataServiceImpl implements InjectDataService {
     @Resource
     private StockCodeDAO stockCodeDAO;
 
+    @Resource
+    private ThreadPoolTaskExecutor mainThreadPool;
+
     public InjectDataServiceImpl() {
         this.fileOperator = new StockFileOperator(SystemConfig.getInstance().getProp("com.sun.stock.date.path", ""));
     }
 
     @Override
     public boolean injectStockData(String stockCode, LocalDate start, LocalDate end) {
+        List<StockDayContainer> containers = new ArrayList<>();
+        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
+        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
+        List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
+
         return false;
     }
 
@@ -77,7 +87,7 @@ public class InjectDataServiceImpl implements InjectDataService {
                     StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(file.getName()));
                     stockDayContainer.swallow(file);
                     containers.add(stockDayContainer);
-
+                    mainThreadPool.execute(new BaseDayCommand(stockDayContainer, stockBaseDAO));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

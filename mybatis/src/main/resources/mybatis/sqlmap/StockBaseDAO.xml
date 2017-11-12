@@ -124,7 +124,7 @@
 		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
 	-->
     <select id="count" resultType="java.lang.Integer">
-        select count(*) from stock_base
+        select count(1) from stock_base
         <include refid="base_where_clause"/>
     </select>
 

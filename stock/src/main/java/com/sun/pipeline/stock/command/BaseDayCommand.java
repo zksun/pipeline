@@ -25,7 +25,7 @@ public class BaseDayCommand implements Command {
 
     private final StockDayContainer stockDayContainer;
 
-    private BaseDayCommand(StockDayContainer container, StockBaseDAO dao) {
+    public BaseDayCommand(StockDayContainer container, StockBaseDAO dao) {
         this.stockDayContainer = container;
         this.stockBaseDAO = dao;
     }
@@ -66,4 +66,12 @@ public class BaseDayCommand implements Command {
     }
 
 
+    @Override
+    public void run() {
+        try {
+            doCommand();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
