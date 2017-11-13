@@ -31,4 +31,6 @@ public class InjectDataTest {
         boolean b = injectDataService.injectStockData("sh600000", start, end);
         System.out.println(b);
     }
+
+
 }

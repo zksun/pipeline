@@ -2,6 +2,7 @@ package com.sun.pipeline.mybatis;
 
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
 import com.sun.pipeline.mybatis.dao.StockCodeDAO;
+import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
 import com.sun.pipeline.mybatis.domain.StockBaseDO;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
 import org.junit.Test;
@@ -22,6 +23,8 @@ public class DatabaseDAOTest {
     private StockBaseDAO stockBaseDAO;
     @Resource
     private StockCodeDAO stockCodeDAO;
+    @Resource
+    private StockInjectLogDAO stockInjectLogDAO;
 
     @Test
     public void queryTest() {

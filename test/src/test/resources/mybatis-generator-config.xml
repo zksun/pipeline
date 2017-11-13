@@ -48,8 +48,8 @@
         </javaClientGenerator>
 
         <!-- 指定库和表名，及生成的DO类名 -->
-        <table schema="stock" tableName="stock_code"
-               domainObjectName="StockCodeDO"
+        <table schema="stock" tableName="stock_inject_log"
+               domainObjectName="StockInjectLogDO"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

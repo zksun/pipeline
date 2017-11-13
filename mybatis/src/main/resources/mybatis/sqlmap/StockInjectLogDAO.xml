@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sun.pipeline.mybatis.dao.StockInjectLogDAO">
+
+    <resultMap id="StockInjectLogResultMap" type="StockInjectLogDO">
+                                    <id column="id" property="id"/>
+                                                <result column="full_name" property="fullName"/>
+                                                <result column="date" property="date"/>
+                                                <result column="inject_time" property="injectTime"/>
+                    
+    </resultMap>
+
+    <sql id="all_column_list">
+                    id,
+                    full_name,
+                    date,
+                    inject_time
+            </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <insert id="insert" parameterType="StockInjectLogDO">
+        <selectKey keyProperty="id" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into stock_inject_log (
+        <include refid="all_column_list"/>
+        )
+        values (
+                    #{id},
+                    #{fullName},
+                    #{date},
+                    #{injectTime}
+                )
+    </insert>
+
+    <!--
+		开发负责人：
+		功能说明：根据主键查询
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="queryById" resultType="StockInjectLogDO" parameterType="java.lang.Long">
+        select
+        <include refid="all_column_list"/>
+        from stock_inject_log
+        where id = #{id}
+    </select>
+
+    <sql id="base_where_clause">
+        <where>
+                            <if test="id != null">
+                    and id = #{id}
+                </if>
+                            <if test="fullName != null and fullName != '' ">
+                    and full_name = #{fullName}
+                </if>
+                            <if test="date != null and date != '' ">
+                    and date = #{date}
+                </if>
+                            <if test="injectTime != null">
+                    and inject_time = #{injectTime}
+                </if>
+                    </where>
+    </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件：
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="query" resultType="StockInjectLogDO">
+        select
+        <include refid="all_column_list"/>
+        from stock_inject_log
+        <include refid="base_where_clause"/>
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件:
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from stock_inject_log
+        <include refid="base_where_clause"/>
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <update id="update" parameterType="StockInjectLogDO">
+        update stock_inject_log
+        <set>
+            gmt_modified = now(),
+                            <if test="id != null">
+                    id = #{id},                </if>
+                            <if test="fullName != null and fullName != '' ">
+                    full_name = #{fullName},                </if>
+                            <if test="date != null and date != '' ">
+                    date = #{date},                </if>
+                            <if test="injectTime != null">
+                    inject_time = #{injectTime}                </if>
+                    </set>
+        where id = #{id}
+        <if test="rowVersion !=null ">
+            and row_version = #{rowVersion}
+        </if>
+    </update>
+</mapper>
