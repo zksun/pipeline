@@ -3,6 +3,7 @@ package com.sun.pipeline.stock.command;
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
 import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
 import com.sun.pipeline.mybatis.domain.StockBaseDO;
+import com.sun.pipeline.mybatis.domain.StockInjectLogDO;
 import com.sun.pipeline.stock.Command;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.domain.StockPrice;
@@ -45,6 +46,13 @@ public class BaseDayCommand implements Command {
 
     @Override
     public boolean doCommand() throws Exception {
+        String stockCode = stockDayContainer.getStock().getStockCode();
+        String day = date2String(stockDayContainer.getDateTime());
+
+        if (hasInjected(stockCode, day)) {
+            return false;
+        }
+
         List<StockPrice> data = stockDayContainer.getData();
         if (null != data && !data.isEmpty()) {
             List<StockBaseDO> stockBaseDOs = new ArrayList<>();
@@ -55,10 +63,11 @@ public class BaseDayCommand implements Command {
                 stockBaseDO.setWish((byte) price.getTrade().getCode());
                 stockBaseDO.setTime(convert(price.getTime().getDateTime()));
                 stockBaseDO.setHand(price.getHand());
-                stockBaseDO.setCode(price.getStock().getStockCode());
+                stockBaseDO.setCode(stockCode);
                 stockBaseDOs.add(stockBaseDO);
             }
             stockBaseDAO.batchInsert(stockBaseDOs);
+            injected(stockCode, day);
             return true;
         }
         return false;
@@ -69,16 +78,23 @@ public class BaseDayCommand implements Command {
         map.put("fullName", code);
         map.put("date", date);
         int count = stockInjectLogDAO.count(map);
-
         return count > 0 ? true : false;
+    }
+
+    private void injected(String code, String date) {
+        StockInjectLogDO stockInjectLogDO = new StockInjectLogDO();
+        stockInjectLogDO.setFullName(code);
+        stockInjectLogDO.setDate(date);
+        stockInjectLogDO.setInjectTime(new Date());
+        stockInjectLogDAO.insert(stockInjectLogDO);
     }
 
     private Date convert(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    private String date2String(LocalDateTime localDateTime) {
-        return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    private String date2String(LocalDate localDate) {
+        return localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
     }
 
