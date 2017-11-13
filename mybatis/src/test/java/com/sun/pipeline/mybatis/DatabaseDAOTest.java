@@ -5,12 +5,15 @@ import com.sun.pipeline.mybatis.dao.StockCodeDAO;
 import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
 import com.sun.pipeline.mybatis.domain.StockBaseDO;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
+import com.sun.pipeline.mybatis.domain.StockInjectLogDO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -63,6 +66,16 @@ public class DatabaseDAOTest {
     @Test
     public void deleteStockCode() {
         stockCodeDAO.clear();
+        System.out.println("end");
+    }
+
+    @Test
+    public void insertStockInjectLogTest() throws ParseException {
+        StockInjectLogDO stockInjectLogDO = new StockInjectLogDO();
+        stockInjectLogDO.setFullName("sh600001");
+        stockInjectLogDO.setDate("20170902");
+        stockInjectLogDO.setInjectTime(new Date());
+        stockInjectLogDAO.insert(stockInjectLogDO);
         System.out.println("end");
     }
 

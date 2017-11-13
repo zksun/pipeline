@@ -4,30 +4,30 @@ import java.util.Date;
 
 public class StockInjectLogDO {
     /**
-     *  
+     *
      */
-    private Integer id;
+    private Long id;
 
     /**
-     *  
+     *
      */
     private String fullName;
 
     /**
-     *  
+     *
      */
     private String date;
 
     /**
-     *  
+     *
      */
     private Date injectTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
