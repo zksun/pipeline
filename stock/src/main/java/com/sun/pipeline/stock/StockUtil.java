@@ -85,7 +85,7 @@ public final class StockUtil {
         }
         List<File> result = Collections.EMPTY_LIST;
         for (File directory : source) {
-            if (stockCode.equals(directory.getName())) {
+            if (stockCode.equals(directory.getName()) || stockCode.equals("empty")) {
                 List<File> files = fileOperator.allTradeFile(directory);
                 if (null != files && !files.isEmpty()) {
                     result = new ArrayList<>();

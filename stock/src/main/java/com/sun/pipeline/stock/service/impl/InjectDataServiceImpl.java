@@ -78,6 +78,35 @@ public class InjectDataServiceImpl implements InjectDataService {
     }
 
     @Override
+    public boolean injectAllStockData(LocalDate start, LocalDate end) {
+        List<StockDayContainer> containers = new ArrayList<>();
+        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
+        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
+        List<File> files = StockUtil.find("empty", defaultFileOperator.allDirectory((dir, name)
+                -> name.matches("(sz|sh)(\\d+)")), start, end, fileOperator);
+        if (null != files && !files.isEmpty()) {
+            for (File day : files) {
+                Stock stock = new Stock(day.getParentFile().getName());
+                StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
+                stockDayContainer.swallow(day);
+                containers.add(stockDayContainer);
+            }
+        }
+        if (!containers.isEmpty()) {
+            for (StockDayContainer container : containers) {
+                try {
+                    mainThreadPool.submit(new BaseDayCommand(container, stockBaseDAO, stockInjectLogDAO)).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean injectAllStockCode() {
         stockCodeDAO.clear();
         List<File> files = fileOperator.allDirectory();

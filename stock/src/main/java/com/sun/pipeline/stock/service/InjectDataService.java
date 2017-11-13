@@ -8,5 +8,7 @@ import java.time.LocalDate;
 public interface InjectDataService {
     boolean injectStockData(String stockCode, LocalDate start, LocalDate end);
 
+    boolean injectAllStockData(LocalDate start, LocalDate end);
+
     boolean injectAllStockCode();
 }

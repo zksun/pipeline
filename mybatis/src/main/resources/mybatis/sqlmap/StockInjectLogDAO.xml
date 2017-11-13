@@ -3,19 +3,21 @@
 <mapper namespace="com.sun.pipeline.mybatis.dao.StockInjectLogDAO">
 
     <resultMap id="StockInjectLogResultMap" type="StockInjectLogDO">
-                                    <id column="id" property="id"/>
-                                                <result column="full_name" property="fullName"/>
-                                                <result column="date" property="date"/>
-                                                <result column="inject_time" property="injectTime"/>
-                    
+        <id column="id" property="id"/>
+        <result column="full_name" property="fullName"/>
+        <result column="date" property="date"/>
+        <result column="inject_time" property="injectTime"/>
+        <result column="inject_num" property="injectNum"/>
+
     </resultMap>
 
     <sql id="all_column_list">
-                    id,
-                    full_name,
-                    date,
-                    inject_time
-            </sql>
+        id,
+        full_name,
+        date,
+        inject_time,
+        inject_num
+    </sql>
 
     <!--
 		开发负责人：
@@ -35,11 +37,12 @@
         <include refid="all_column_list"/>
         )
         values (
-                    #{id},
-                    #{fullName},
-                    #{date},
-                    #{injectTime}
-                )
+        #{id},
+        #{fullName},
+        #{date},
+        #{injectTime},
+        #{injectNum}
+        )
     </insert>
 
     <!--
@@ -61,19 +64,22 @@
 
     <sql id="base_where_clause">
         <where>
-                            <if test="id != null">
-                    and id = #{id}
-                </if>
-                            <if test="fullName != null and fullName != '' ">
-                    and full_name = #{fullName}
-                </if>
-                            <if test="date != null and date != '' ">
-                    and date = #{date}
-                </if>
-                            <if test="injectTime != null">
-                    and inject_time = #{injectTime}
-                </if>
-                    </where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="fullName != null and fullName != '' ">
+                and full_name = #{fullName}
+            </if>
+            <if test="date != null and date != '' ">
+                and date = #{date}
+            </if>
+            <if test="injectTime != null">
+                and inject_time = #{injectTime}
+            </if>
+            <if test="injectNum != null">
+                and inject_num = #{injectNum}
+            </if>
+        </where>
     </sql>
 
     <!--
@@ -124,15 +130,17 @@
         update stock_inject_log
         <set>
             gmt_modified = now(),
-                            <if test="id != null">
-                    id = #{id},                </if>
-                            <if test="fullName != null and fullName != '' ">
-                    full_name = #{fullName},                </if>
-                            <if test="date != null and date != '' ">
-                    date = #{date},                </if>
-                            <if test="injectTime != null">
-                    inject_time = #{injectTime}                </if>
-                    </set>
+            <if test="id != null">
+                id = #{id},                </if>
+            <if test="fullName != null and fullName != '' ">
+                full_name = #{fullName},                </if>
+            <if test="date != null and date != '' ">
+                date = #{date},                </if>
+            <if test="injectTime != null">
+                inject_time = #{injectTime},                </if>
+            <if test="injectNum != null">
+                inject_num = #{injectNum}                </if>
+        </set>
         where id = #{id}
         <if test="rowVersion !=null ">
             and row_version = #{rowVersion}

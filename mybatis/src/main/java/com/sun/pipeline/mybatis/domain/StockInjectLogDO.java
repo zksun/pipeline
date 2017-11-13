@@ -23,6 +23,11 @@ public class StockInjectLogDO {
      */
     private Date injectTime;
 
+    /**
+     *
+     */
+    private Integer injectNum;
+
     public Long getId() {
         return id;
     }
@@ -53,5 +58,13 @@ public class StockInjectLogDO {
 
     public void setInjectTime(Date injectTime) {
         this.injectTime = injectTime;
+    }
+
+    public Integer getInjectNum() {
+        return injectNum;
+    }
+
+    public void setInjectNum(Integer injectNum) {
+        this.injectNum = injectNum;
     }
 }

@@ -25,10 +25,18 @@ public class InjectDataTest {
     }
 
     @Test
-    public void setInjectDayContainerTest() {
+    public void InjectDayContainerTest() {
         LocalDate start = LocalDate.parse("20170921", DateTimeFormatter.ofPattern("yyyyMMdd"));
         LocalDate end = LocalDate.parse("20170921", DateTimeFormatter.ofPattern("yyyyMMdd"));
         boolean b = injectDataService.injectStockData("sh600000", start, end);
+        System.out.println(b);
+    }
+
+    @Test
+    public void AllInjectDayContainerTest(){
+        LocalDate start = LocalDate.parse("20170203", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate end = LocalDate.parse("20171113", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        boolean b = injectDataService.injectAllStockData(start, end);
         System.out.println(b);
     }
 
