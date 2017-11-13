@@ -220,5 +220,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
         return new TimeDomain(localDateTime);
     }
 
-
+    public Stock getStock() {
+        return stock;
+    }
 }

@@ -2,6 +2,7 @@ package com.sun.pipeline.stock.service.impl;
 
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
 import com.sun.pipeline.mybatis.dao.StockCodeDAO;
+import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
 import com.sun.pipeline.stock.StockFileOperator;
 import com.sun.pipeline.stock.StockUtil;
@@ -17,7 +18,9 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
 
@@ -33,6 +36,9 @@ public class InjectDataServiceImpl implements InjectDataService {
 
     @Resource
     private StockCodeDAO stockCodeDAO;
+
+    @Resource
+    private StockInjectLogDAO stockInjectLogDAO;
 
     @Resource
     private ThreadPoolTaskExecutor mainThreadPool;
@@ -59,7 +65,7 @@ public class InjectDataServiceImpl implements InjectDataService {
         if (!containers.isEmpty()) {
             for (StockDayContainer container : containers) {
                 try {
-                    mainThreadPool.submit(new BaseDayCommand(container, stockBaseDAO)).get();
+                    mainThreadPool.submit(new BaseDayCommand(container, stockBaseDAO, stockInjectLogDAO)).get();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -94,8 +100,7 @@ public class InjectDataServiceImpl implements InjectDataService {
     }
 
 
-    private List<StockDayContainer> getAllDayContainers() {
-        List<StockDayContainer> containers = new ArrayList<>();
+    private void injectAllDayContainers() {
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
@@ -106,14 +111,12 @@ public class InjectDataServiceImpl implements InjectDataService {
                     Stock stock = new Stock(directory.getName());
                     StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(file.getName()));
                     stockDayContainer.swallow(file);
-                    containers.add(stockDayContainer);
-                    mainThreadPool.execute(new BaseDayCommand(stockDayContainer, stockBaseDAO));
+                    mainThreadPool.execute(new BaseDayCommand(stockDayContainer, stockBaseDAO, stockInjectLogDAO));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-        return containers;
     }
 
 

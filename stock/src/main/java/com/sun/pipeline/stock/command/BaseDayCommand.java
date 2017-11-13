@@ -1,6 +1,7 @@
 package com.sun.pipeline.stock.command;
 
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
+import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
 import com.sun.pipeline.mybatis.domain.StockBaseDO;
 import com.sun.pipeline.stock.Command;
 import com.sun.pipeline.stock.domain.Stock;
@@ -12,22 +13,24 @@ import com.sun.pipeline.stock.service.InjectDataService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Created by zhikunsun on 17/9/24.
  */
 public class BaseDayCommand implements Command {
 
-    private StockBaseDAO stockBaseDAO;
+    private final StockBaseDAO stockBaseDAO;
+
+    private final StockInjectLogDAO stockInjectLogDAO;
 
     private final StockDayContainer stockDayContainer;
 
-    public BaseDayCommand(StockDayContainer container, StockBaseDAO dao) {
+    public BaseDayCommand(StockDayContainer container, StockBaseDAO dao, StockInjectLogDAO stockInjectLogDAO) {
         this.stockDayContainer = container;
         this.stockBaseDAO = dao;
+        this.stockInjectLogDAO = stockInjectLogDAO;
     }
 
     @Override
@@ -61,8 +64,22 @@ public class BaseDayCommand implements Command {
         return false;
     }
 
+    private boolean hasInjected(String code, String date) {
+        Map<String, String> map = new HashMap<>();
+        map.put("fullName", code);
+        map.put("date", date);
+        int count = stockInjectLogDAO.count(map);
+
+        return count > 0 ? true : false;
+    }
+
     private Date convert(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private String date2String(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
     }
 
 
