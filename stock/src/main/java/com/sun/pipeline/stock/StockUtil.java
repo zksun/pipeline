@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 public final class StockUtil {
 
     /**
-     * 得到交易自信的时间
+     * 得到交易自定义的时间
      *
      * @param source
      * @return
