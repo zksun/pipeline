@@ -8,8 +8,11 @@ import com.sun.pipeline.stock.Command;
 import com.sun.pipeline.stock.domain.Stock;
 import com.sun.pipeline.stock.domain.StockPrice;
 import com.sun.pipeline.stock.domain.Trade;
+import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 import com.sun.pipeline.stock.price.StockDayContainer;
 import com.sun.pipeline.stock.service.InjectDataService;
+import com.sun.pipeline.util.internal.logging.InternalLogger;
+import com.sun.pipeline.util.internal.logging.InternalLoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +24,8 @@ import java.util.*;
  * Created by zhikunsun on 17/9/24.
  */
 public class BaseDayCommand implements Command {
+
+    private final static InternalLogger logger = InternalLoggerFactory.getInstance(BaseDayCommand.class.getName());
 
     private final StockBaseDAO stockBaseDAO;
 
@@ -66,7 +71,15 @@ public class BaseDayCommand implements Command {
                 stockBaseDO.setCode(stockCode);
                 stockBaseDOs.add(stockBaseDO);
             }
-            stockBaseDAO.batchInsert(stockBaseDOs);
+            try {
+                stockBaseDAO.batchInsert(stockBaseDOs);
+            } catch (Throwable e) {
+                logger.error("inject data error with stock: " + stockCode + " and day: " + day);
+                synchronized (logger) {
+                    wait(1000);
+                    stockBaseDAO.batchInsert(stockBaseDOs);//try again
+                }
+            }
             injected(stockCode, day);
             return true;
         }
