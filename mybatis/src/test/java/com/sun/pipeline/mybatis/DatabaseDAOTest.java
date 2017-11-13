@@ -15,6 +15,8 @@ import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zhikunsun on 2017/11/11.
@@ -73,10 +75,20 @@ public class DatabaseDAOTest {
     public void insertStockInjectLogTest() throws ParseException {
         StockInjectLogDO stockInjectLogDO = new StockInjectLogDO();
         stockInjectLogDO.setFullName("sh600001");
-        stockInjectLogDO.setDate("20170902");
+        stockInjectLogDO.setDate("20170901");
         stockInjectLogDO.setInjectTime(new Date());
         stockInjectLogDAO.insert(stockInjectLogDO);
         System.out.println("end");
+    }
+
+    @Test
+    public void queryStockInjectLogTest() {
+        Map<String, String> map = new HashMap<>();
+        map.put("fullName", "sh600001");
+        map.put("date", "20170902");
+
+        int count = stockInjectLogDAO.count(map);
+        System.out.println(count);
     }
 
 
