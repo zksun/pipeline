@@ -89,9 +89,10 @@ public class BaseDayCommand implements Command {
     }
 
     private boolean hasInjected(String code, String date) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("fullName", code);
         map.put("date", date);
+        map.put("type", (byte) INJECTBASEDATA.getType());
         int count = stockInjectLogDAO.count(map);
         return count > 0 ? true : false;
     }
@@ -114,7 +115,6 @@ public class BaseDayCommand implements Command {
         return localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
     }
-
 
     @Override
     public void run() {

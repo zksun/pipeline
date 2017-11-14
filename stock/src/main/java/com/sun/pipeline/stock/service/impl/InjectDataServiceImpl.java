@@ -80,7 +80,6 @@ public class InjectDataServiceImpl implements InjectDataService {
 
     @Override
     public boolean injectAllStockData(LocalDate start, LocalDate end) {
-        //List<StockDayContainer> containers = new ArrayList<>();
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> files = StockUtil.find("empty", defaultFileOperator.allDirectory((dir, name)
@@ -90,7 +89,6 @@ public class InjectDataServiceImpl implements InjectDataService {
                 Stock stock = new Stock(day.getParentFile().getName());
                 StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
                 stockDayContainer.swallow(day);
-                //containers.add(stockDayContainer);
                 try {
                     mainThreadPool.submit(new BaseDayCommand(stockDayContainer, stockBaseDAO, stockInjectLogDAO)).get();
                 } catch (Exception e) {
@@ -123,26 +121,5 @@ public class InjectDataServiceImpl implements InjectDataService {
         }
         return false;
     }
-
-
-    private void injectAllDayContainers() {
-        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
-        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
-        List<File> list = defaultFileOperator.allDirectory((dir, name) -> name.matches("(sz|sh)(\\d+)"));
-        for (File directory : list) {
-            List<File> files = defaultFileOperator.allFiles(directory, ((dir, name) -> name.matches("(\\d+)(\\.txt)")));
-            for (File file : files) {
-                try {
-                    Stock stock = new Stock(directory.getName());
-                    StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(file.getName()));
-                    stockDayContainer.swallow(file);
-                    mainThreadPool.execute(new BaseDayCommand(stockDayContainer, stockBaseDAO, stockInjectLogDAO));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 
 }
