@@ -3,9 +3,11 @@ package com.sun.pipeline.mybatis;
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
 import com.sun.pipeline.mybatis.dao.StockCodeDAO;
 import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
+import com.sun.pipeline.mybatis.dao.StockRightDAO;
 import com.sun.pipeline.mybatis.domain.StockBaseDO;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
 import com.sun.pipeline.mybatis.domain.StockInjectLogDO;
+import com.sun.pipeline.mybatis.domain.StockRightDO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +32,8 @@ public class DatabaseDAOTest {
     private StockCodeDAO stockCodeDAO;
     @Resource
     private StockInjectLogDAO stockInjectLogDAO;
+    @Resource
+    private StockRightDAO stockRightDAO;
 
     @Test
     public void queryTest() {
@@ -89,6 +93,18 @@ public class DatabaseDAOTest {
 
         int count = stockInjectLogDAO.count(map);
         System.out.println(count);
+    }
+
+    @Test
+    public void insertStockRightTest() {
+        StockRightDO stockRightDO = new StockRightDO();
+        stockRightDO.setAdjustDay(new Date());
+        stockRightDO.setAllotmentPrice(1000L);
+        stockRightDO.setAllotmentStock(1234);
+        stockRightDO.setDistribute(1000L);
+        stockRightDO.setExchangeStock(10);
+        stockRightDO.setStockCode("sh600001");
+        stockRightDAO.insert(stockRightDO);
     }
 
 
