@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
 
@@ -79,7 +80,7 @@ public class InjectDataServiceImpl implements InjectDataService {
 
     @Override
     public boolean injectAllStockData(LocalDate start, LocalDate end) {
-        List<StockDayContainer> containers = new ArrayList<>();
+        //List<StockDayContainer> containers = new ArrayList<>();
         String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
         DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
         List<File> files = StockUtil.find("empty", defaultFileOperator.allDirectory((dir, name)
@@ -89,21 +90,16 @@ public class InjectDataServiceImpl implements InjectDataService {
                 Stock stock = new Stock(day.getParentFile().getName());
                 StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
                 stockDayContainer.swallow(day);
-                containers.add(stockDayContainer);
-            }
-        }
-        if (!containers.isEmpty()) {
-            for (StockDayContainer container : containers) {
+                //containers.add(stockDayContainer);
                 try {
-                    mainThreadPool.submit(new BaseDayCommand(container, stockBaseDAO, stockInjectLogDAO)).get();
+                    mainThreadPool.submit(new BaseDayCommand(stockDayContainer, stockBaseDAO, stockInjectLogDAO)).get();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-
             }
-            return true;
         }
-        return false;
+
+        return true;
     }
 
     @Override
