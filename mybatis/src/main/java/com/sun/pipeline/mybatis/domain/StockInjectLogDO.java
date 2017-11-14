@@ -28,6 +28,11 @@ public class StockInjectLogDO {
      */
     private Integer injectNum;
 
+    /**
+     *
+     */
+    private Byte type;
+
     public Long getId() {
         return id;
     }
@@ -66,5 +71,13 @@ public class StockInjectLogDO {
 
     public void setInjectNum(Integer injectNum) {
         this.injectNum = injectNum;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

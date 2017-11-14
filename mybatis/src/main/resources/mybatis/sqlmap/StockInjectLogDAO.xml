@@ -8,6 +8,7 @@
         <result column="date" property="date"/>
         <result column="inject_time" property="injectTime"/>
         <result column="inject_num" property="injectNum"/>
+        <result column="type" property="type"/>
 
     </resultMap>
 
@@ -16,7 +17,8 @@
         full_name,
         date,
         inject_time,
-        inject_num
+        inject_num,
+        type
     </sql>
 
     <!--
@@ -41,7 +43,8 @@
         #{fullName},
         #{date},
         #{injectTime},
-        #{injectNum}
+        #{injectNum},
+        #{type}
         )
     </insert>
 
@@ -78,6 +81,9 @@
             </if>
             <if test="injectNum != null">
                 and inject_num = #{injectNum}
+            </if>
+            <if test="type != null">
+                and type = #{type}
             </if>
         </where>
     </sql>
@@ -139,7 +145,9 @@
             <if test="injectTime != null">
                 inject_time = #{injectTime},                </if>
             <if test="injectNum != null">
-                inject_num = #{injectNum}                </if>
+                inject_num = #{injectNum},                </if>
+            <if test="type != null">
+                type = #{type}                </if>
         </set>
         where id = #{id}
         <if test="rowVersion !=null ">
