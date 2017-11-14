@@ -39,8 +39,9 @@ public class StockRightCommand implements Command {
             return false;
         }
         for (StockRightDO rightDO : rightDOs) {
-            boolean b = hasInjected(rightDO.getStockCode(), rightDO.getAdjustDay());
-            if (b) {
+            long l = hasInjected(rightDO.getStockCode(), rightDO.getAdjustDay());
+            if (l > 0) {
+                rightDO.setId(l);
                 stockRightDAO.update(rightDO);
             } else {
                 stockRightDAO.insert(rightDO);
@@ -72,12 +73,15 @@ public class StockRightCommand implements Command {
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    private boolean hasInjected(String code, Date date) {
+    private long hasInjected(String code, Date date) {
         Map<String, Object> map = new HashMap<>();
         map.put("stockCode", code);
         map.put("adjustDay", date);
-        int count = stockRightDAO.count(map);
-        return count > 0 ? true : false;
+        List<StockRightDO> query = stockRightDAO.query(map);
+        if (null != query && !query.isEmpty()) {
+            return query.get(0).getId();
+        }
+        return -1L;
     }
 
     @Override

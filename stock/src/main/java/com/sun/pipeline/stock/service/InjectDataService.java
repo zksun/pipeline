@@ -11,4 +11,6 @@ public interface InjectDataService {
     boolean injectAllStockData(LocalDate start, LocalDate end);
 
     boolean injectAllStockCode();
+
+    boolean injectAllStockExcludeRights();
 }

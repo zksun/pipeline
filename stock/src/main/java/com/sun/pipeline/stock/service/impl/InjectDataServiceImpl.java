@@ -3,11 +3,16 @@ package com.sun.pipeline.stock.service.impl;
 import com.sun.pipeline.mybatis.dao.StockBaseDAO;
 import com.sun.pipeline.mybatis.dao.StockCodeDAO;
 import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
+import com.sun.pipeline.mybatis.dao.StockRightDAO;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
+import com.sun.pipeline.stock.Contants;
 import com.sun.pipeline.stock.StockFileOperator;
 import com.sun.pipeline.stock.StockUtil;
 import com.sun.pipeline.stock.command.BaseDayCommand;
+import com.sun.pipeline.stock.command.StockRightCommand;
+import com.sun.pipeline.stock.domain.ExcludeRights;
 import com.sun.pipeline.stock.domain.Stock;
+import com.sun.pipeline.stock.explorer.sohu.SohuStockHttpCommandService;
 import com.sun.pipeline.stock.price.StockDayContainer;
 import com.sun.pipeline.stock.service.InjectDataService;
 import com.sun.pipeline.stock.system.SystemConfig;
@@ -30,6 +35,7 @@ import static com.sun.pipeline.stock.StockUtil.getRealTime;
  */
 public class InjectDataServiceImpl implements InjectDataService {
 
+    private SohuStockHttpCommandService sohuStockHttpCommandService = SohuStockHttpCommandService.getInstance();
     private StockFileOperator fileOperator;
 
     @Resource
@@ -37,6 +43,9 @@ public class InjectDataServiceImpl implements InjectDataService {
 
     @Resource
     private StockCodeDAO stockCodeDAO;
+
+    @Resource
+    private StockRightDAO stockRightDAO;
 
     @Resource
     private StockInjectLogDAO stockInjectLogDAO;
@@ -117,6 +126,24 @@ public class InjectDataServiceImpl implements InjectDataService {
                 stockCodeDOs.add(stockCodeDO);
             }
             stockCodeDAO.batchInsert(stockCodeDOs);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean injectAllStockExcludeRights() {
+        List<File> files = fileOperator.allDirectory();
+        if (!files.isEmpty()) {
+            for (File file : files) {
+                String stockCode = file.getName();
+                List<ExcludeRights> excludeRightses = sohuStockHttpCommandService.getExcludeRightsInfo(Contants.DEFAULT_SOHU_INFO_HTTP_GET, stockCode);
+                try {
+                    mainThreadPool.submit(new StockRightCommand(excludeRightses, stockRightDAO)).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
             return true;
         }
         return false;
