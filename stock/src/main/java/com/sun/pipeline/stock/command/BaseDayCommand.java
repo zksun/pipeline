@@ -80,7 +80,7 @@ public class BaseDayCommand implements Command {
                     stockBaseDAO.batchInsert(stockBaseDOs);//try again
                 }
             }
-            injected(stockCode, day);
+            injected(stockCode, day, stockBaseDOs.size());
             return true;
         }
         return false;
@@ -94,11 +94,12 @@ public class BaseDayCommand implements Command {
         return count > 0 ? true : false;
     }
 
-    private void injected(String code, String date) {
+    private void injected(String code, String date, int num) {
         StockInjectLogDO stockInjectLogDO = new StockInjectLogDO();
         stockInjectLogDO.setFullName(code);
         stockInjectLogDO.setDate(date);
         stockInjectLogDO.setInjectTime(new Date());
+        stockInjectLogDO.setInjectNum(num);
         stockInjectLogDAO.insert(stockInjectLogDO);
     }
 

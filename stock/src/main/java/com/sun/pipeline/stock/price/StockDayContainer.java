@@ -97,7 +97,7 @@ public class StockDayContainer extends ContainerAdapter<List<StockPrice>, Object
             return this;
         }
         add(convert(inputStream));
-        if (isLi == isLi()) {
+        if (isLi = isLi()) {
             for (StockPrice price : this.prices) {
                 price.setPrice(price.getPrice() / 10);
                 price.setAuthorityPrice(calculateAuthorityPrice(stock.getStockCode(), dateTime, price.getPrice(), authority));
