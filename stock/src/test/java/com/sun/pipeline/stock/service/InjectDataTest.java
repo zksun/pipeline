@@ -34,7 +34,7 @@ public class InjectDataTest {
 
     @Test
     public void AllInjectDayContainerTest() {
-        LocalDate start = LocalDate.parse("20170203", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate start = LocalDate.parse("20170207", DateTimeFormatter.ofPattern("yyyyMMdd"));
         LocalDate end = LocalDate.parse("20171113", DateTimeFormatter.ofPattern("yyyyMMdd"));
         while (start.isBefore(end) || start.isEqual(end)) {
             injectDataService.injectAllStockData(start, start);
