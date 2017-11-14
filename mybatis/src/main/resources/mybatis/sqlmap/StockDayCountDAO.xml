@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sun.pipeline.mybatis.dao.StockDayCountDAO">
+
+    <resultMap id="StockDayCountResultMap" type="StockDayCountDO">
+                                    <id column="id" property="id"/>
+                                                <result column="code" property="code"/>
+                                                <result column="day" property="day"/>
+                                                <result column="avg" property="avg"/>
+                                                <result column="total_hand" property="totalHand"/>
+                    
+    </resultMap>
+
+    <sql id="all_column_list">
+                    id,
+                    code,
+                    day,
+                    avg,
+                    total_hand
+            </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <insert id="insert" parameterType="StockDayCountDO">
+        <selectKey keyProperty="id" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into stock_day_count (
+        <include refid="all_column_list"/>
+        )
+        values (
+                    #{id},
+                    #{code},
+                    #{day},
+                    #{avg},
+                    #{totalHand}
+                )
+    </insert>
+
+    <!--
+		开发负责人：
+		功能说明：根据主键查询
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="queryById" resultType="StockDayCountDO" parameterType="java.lang.Long">
+        select
+        <include refid="all_column_list"/>
+        from stock_day_count
+        where id = #{id}
+    </select>
+
+    <sql id="base_where_clause">
+        <where>
+                            <if test="id != null">
+                    and id = #{id}
+                </if>
+                            <if test="code != null and code != '' ">
+                    and code = #{code}
+                </if>
+                            <if test="day != null">
+                    and day = #{day}
+                </if>
+                            <if test="avg != null">
+                    and avg = #{avg}
+                </if>
+                            <if test="totalHand != null">
+                    and total_hand = #{totalHand}
+                </if>
+                    </where>
+    </sql>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件：
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="query" resultType="StockDayCountDO">
+        select
+        <include refid="all_column_list"/>
+        from stock_day_count
+        <include refid="base_where_clause"/>
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		高概率条件:
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from stock_day_count
+        <include refid="base_where_clause"/>
+    </select>
+
+    <!--
+		开发负责人：
+		功能说明：请说明SQL应用场景
+		前台 或 后台：
+		频率：请说明qps/tps
+		分表数量：多少个分表/单表是否
+		是否有缓存：
+		缓存失效时间：
+		数据量及增长趋势：请说明现有多少条，每天的数据增长量，至少半年的数据预估
+	-->
+    <update id="update" parameterType="StockDayCountDO">
+        update stock_day_count
+        <set>
+            gmt_modified = now(),
+                            <if test="id != null">
+                    id = #{id},                </if>
+                            <if test="code != null and code != '' ">
+                    code = #{code},                </if>
+                            <if test="day != null">
+                    day = #{day},                </if>
+                            <if test="avg != null">
+                    avg = #{avg},                </if>
+                            <if test="totalHand != null">
+                    total_hand = #{totalHand}                </if>
+                    </set>
+        where id = #{id}
+        <if test="rowVersion !=null ">
+            and row_version = #{rowVersion}
+        </if>
+    </update>
+</mapper>
