@@ -14,10 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,6 +106,8 @@ public class DatabaseDAOTest {
         stockRightDO.setStockCode("sh600001");
         stockRightDAO.insert(stockRightDO);
     }
+
+
 
 
 }

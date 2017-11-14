@@ -4,37 +4,37 @@ import java.util.Date;
 
 public class StockRightDO {
     /**
-     *  
+     *
      */
     private Long id;
 
     /**
-     *  
+     *
      */
     private String stockCode;
 
     /**
-     *  
+     *
      */
     private Long distribute;
 
     /**
-     *  
+     *
      */
     private Integer exchangeStock;
 
     /**
-     *  
+     *
      */
     private Integer allotmentStock;
 
     /**
-     *  
+     *
      */
     private Long allotmentPrice;
 
     /**
-     *  
+     *
      */
     private Date adjustDay;
 
@@ -92,5 +92,18 @@ public class StockRightDO {
 
     public void setAdjustDay(Date adjustDay) {
         this.adjustDay = adjustDay;
+    }
+
+    @Override
+    public String toString() {
+        return "StockRightDO{" +
+                "id=" + id +
+                ", stockCode='" + stockCode + '\'' +
+                ", distribute=" + distribute +
+                ", exchangeStock=" + exchangeStock +
+                ", allotmentStock=" + allotmentStock +
+                ", allotmentPrice=" + allotmentPrice +
+                ", adjustDay=" + adjustDay +
+                '}';
     }
 }

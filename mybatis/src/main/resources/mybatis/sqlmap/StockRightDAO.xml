@@ -110,7 +110,7 @@
         <include refid="all_column_list"/>
         from stock_rights
         <include refid="base_where_clause"/>
-        order by adjust_day
+        order by adjust_day ASC
     </select>
 
     <!--
