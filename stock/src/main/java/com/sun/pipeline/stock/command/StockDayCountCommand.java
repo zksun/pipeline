@@ -2,12 +2,16 @@ package com.sun.pipeline.stock.command;
 
 import com.sun.pipeline.mybatis.dao.StockDayCountDAO;
 import com.sun.pipeline.mybatis.domain.StockDayCountDO;
+import com.sun.pipeline.mybatis.domain.StockRightDO;
 import com.sun.pipeline.stock.Command;
 import com.sun.pipeline.stock.price.StockDayContainer;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhikunsun on 2017/11/14.
@@ -47,6 +51,7 @@ public class StockDayCountCommand implements Command {
         stockDayCountDAO.insert(stockDayCountDO);
         return true;
     }
+
 
     private Date convert(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());

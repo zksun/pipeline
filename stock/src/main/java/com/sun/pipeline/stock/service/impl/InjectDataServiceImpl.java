@@ -2,6 +2,7 @@ package com.sun.pipeline.stock.service.impl;
 
 import com.sun.pipeline.mybatis.dao.*;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
+import com.sun.pipeline.mybatis.domain.StockDayCountDO;
 import com.sun.pipeline.stock.Contants;
 import com.sun.pipeline.stock.StockFileOperator;
 import com.sun.pipeline.stock.StockUtil;
@@ -20,10 +21,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import javax.annotation.Resource;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import static com.sun.pipeline.stock.StockUtil.getRealTime;
@@ -182,6 +181,12 @@ public class InjectDataServiceImpl implements InjectDataService {
         if (null != files && !files.isEmpty()) {
             for (File day : files) {
                 Stock stock = new Stock(day.getParentFile().getName());
+
+                long l = hasInjected(stockCode, convert(getRealTime(day.getName())));
+                if (l > 0) {
+                    continue;
+                }
+
                 StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
                 stockDayContainer.swallow(day);
                 containers.add(stockDayContainer);
@@ -198,6 +203,21 @@ public class InjectDataServiceImpl implements InjectDataService {
             return true;
         }
         return false;
+    }
+
+    private long hasInjected(String code, Date date) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        map.put("day", date);
+        List<StockDayCountDO> query = stockDayCountDAO.query(map);
+        if (null != query && !query.isEmpty()) {
+            return query.get(0).getId();
+        }
+        return -1L;
+    }
+
+    private Date convert(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
