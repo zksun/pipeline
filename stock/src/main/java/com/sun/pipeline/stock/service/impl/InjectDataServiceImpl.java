@@ -194,7 +194,6 @@ public class InjectDataServiceImpl implements InjectDataService {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-
             }
             return true;
         }
