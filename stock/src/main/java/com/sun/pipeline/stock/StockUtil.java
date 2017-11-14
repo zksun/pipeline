@@ -83,12 +83,11 @@ public final class StockUtil {
         if (null == fileOperator) {
             throw new NullPointerException("file operator");
         }
-        List<File> result = Collections.EMPTY_LIST;
+        List<File> result = new ArrayList<>();
         for (File directory : source) {
             if (stockCode.equals(directory.getName()) || stockCode.equals("empty")) {
                 List<File> files = fileOperator.allTradeFile(directory);
                 if (null != files && !files.isEmpty()) {
-                    result = new ArrayList<>();
                     for (File trade : files) {
                         LocalDate realTime = StockUtil.getRealTime(trade.getName().trim());
                         if (start.isEqual(realTime) || end.isEqual(realTime)) {
