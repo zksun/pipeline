@@ -4,27 +4,27 @@ import java.util.Date;
 
 public class StockDayCountDO {
     /**
-     *  
+     *
      */
     private Long id;
 
     /**
-     *  
+     *
      */
     private String code;
 
     /**
-     *  
+     *
      */
     private Date day;
 
     /**
-     *  
+     *
      */
-    private Integer avg;
+    private Long avg;
 
     /**
-     *  
+     *
      */
     private Integer totalHand;
 
@@ -52,11 +52,11 @@ public class StockDayCountDO {
         this.day = day;
     }
 
-    public Integer getAvg() {
+    public Long getAvg() {
         return avg;
     }
 
-    public void setAvg(Integer avg) {
+    public void setAvg(Long avg) {
         this.avg = avg;
     }
 

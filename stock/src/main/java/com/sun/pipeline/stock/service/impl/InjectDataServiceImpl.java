@@ -1,14 +1,12 @@
 package com.sun.pipeline.stock.service.impl;
 
-import com.sun.pipeline.mybatis.dao.StockBaseDAO;
-import com.sun.pipeline.mybatis.dao.StockCodeDAO;
-import com.sun.pipeline.mybatis.dao.StockInjectLogDAO;
-import com.sun.pipeline.mybatis.dao.StockRightDAO;
+import com.sun.pipeline.mybatis.dao.*;
 import com.sun.pipeline.mybatis.domain.StockCodeDO;
 import com.sun.pipeline.stock.Contants;
 import com.sun.pipeline.stock.StockFileOperator;
 import com.sun.pipeline.stock.StockUtil;
 import com.sun.pipeline.stock.command.BaseDayCommand;
+import com.sun.pipeline.stock.command.StockDayCountCommand;
 import com.sun.pipeline.stock.command.StockRightCommand;
 import com.sun.pipeline.stock.domain.ExcludeRights;
 import com.sun.pipeline.stock.domain.Stock;
@@ -46,6 +44,9 @@ public class InjectDataServiceImpl implements InjectDataService {
 
     @Resource
     private StockRightDAO stockRightDAO;
+
+    @Resource
+    private StockDayCountDAO stockDayCountDAO;
 
     @Resource
     private StockInjectLogDAO stockInjectLogDAO;
@@ -143,6 +144,57 @@ public class InjectDataServiceImpl implements InjectDataService {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean injectAllStockDayCount(LocalDate start, LocalDate end) {
+        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
+        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
+        List<File> files = StockUtil.find("empty", defaultFileOperator.allDirectory((dir, name)
+                -> name.matches("(sz|sh)(\\d+)")), start, end, fileOperator);
+        if (null != files && !files.isEmpty()) {
+            for (File day : files) {
+                Stock stock = new Stock(day.getParentFile().getName());
+                StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
+                stockDayContainer.swallow(day);
+                try {
+                    mainThreadPool.submit(new StockDayCountCommand(stockDayContainer, stockDayCountDAO)).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean injectStockDayCount(String stockCode, LocalDate start, LocalDate end) {
+        List<StockDayContainer> containers = new ArrayList<>();
+        String configFilePath = SystemConfig.getInstance().getProp(SystemConfig.DEFAULT_SYSTEM_PROPERTIES_CONFIG_NAME, "");
+        DefaultFileOperator defaultFileOperator = new DefaultFileOperator(configFilePath);
+        List<File> files = StockUtil.find(stockCode, defaultFileOperator.allDirectory((dir, name)
+                -> name.matches("(sz|sh)(\\d+)")), start, end, fileOperator);
+        if (null != files && !files.isEmpty()) {
+            for (File day : files) {
+                Stock stock = new Stock(day.getParentFile().getName());
+                StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
+                stockDayContainer.swallow(day);
+                containers.add(stockDayContainer);
+            }
+        }
+        if (!containers.isEmpty()) {
+            for (StockDayContainer container : containers) {
+                try {
+                    mainThreadPool.submit(new StockDayCountCommand(container, stockDayCountDAO)).get();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
             }
             return true;
         }

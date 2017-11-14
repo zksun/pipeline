@@ -13,4 +13,8 @@ public interface InjectDataService {
     boolean injectAllStockCode();
 
     boolean injectAllStockExcludeRights();
+
+    boolean injectAllStockDayCount(LocalDate start, LocalDate end);
+
+    boolean injectStockDayCount(String stockCode, LocalDate start, LocalDate end);
 }
