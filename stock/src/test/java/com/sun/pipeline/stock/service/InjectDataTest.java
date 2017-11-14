@@ -48,5 +48,16 @@ public class InjectDataTest {
         injectDataService.injectAllStockExcludeRights();
     }
 
+    @Test
+    public void allInjectCountTest(){
+        LocalDate start = LocalDate.parse("20170207", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate end = LocalDate.parse("20171113", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        while (start.isBefore(end) || start.isEqual(end)) {
+            injectDataService.injectAllStockDayCount(start, start);
+            start = start.plusDays(1);
+            System.out.println("end: " + start);
+        }
+    }
+
 
 }
