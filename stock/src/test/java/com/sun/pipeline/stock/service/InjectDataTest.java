@@ -33,7 +33,7 @@ public class InjectDataTest {
     }
 
     @Test
-    public void AllInjectDayContainerTest() {
+    public void allInjectDayContainerTest() {
         LocalDate start = LocalDate.parse("20170207", DateTimeFormatter.ofPattern("yyyyMMdd"));
         LocalDate end = LocalDate.parse("20171113", DateTimeFormatter.ofPattern("yyyyMMdd"));
         while (start.isBefore(end) || start.isEqual(end)) {
@@ -41,6 +41,11 @@ public class InjectDataTest {
             start = start.plusDays(1);
             System.out.println("end: " + start);
         }
+    }
+
+    @Test
+    public void allInjectStockRightsTest() {
+        injectDataService.injectAllStockExcludeRights();
     }
 
 

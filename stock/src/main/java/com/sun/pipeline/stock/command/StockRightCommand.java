@@ -52,13 +52,17 @@ public class StockRightCommand implements Command {
 
     private StockRightDO convert(ExcludeRights excludeRights) {
         StockRightDO stockRightDO = new StockRightDO();
-        stockRightDO.setStockCode(excludeRights.getStockCode());
+        stockRightDO.setStockCode(convertStockCode(excludeRights.getStockCode()));
         stockRightDO.setExchangeStock(excludeRights.getExchangeStock());
         stockRightDO.setDistribute(excludeRights.getDistribute());
         stockRightDO.setAllotmentStock(excludeRights.getAllotmentStock());
         stockRightDO.setAllotmentPrice(excludeRights.getAllotmentPrice());
         stockRightDO.setAdjustDay(convert(excludeRights.getAdjustDay()));
         return stockRightDO;
+    }
+
+    private String convertStockCode(String source) {
+        return source.replace("_", "");
     }
 
     private List<StockRightDO> convert(List<ExcludeRights> excludeRights) {
