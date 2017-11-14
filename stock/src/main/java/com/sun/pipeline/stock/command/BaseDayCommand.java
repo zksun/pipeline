@@ -20,6 +20,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static com.sun.pipeline.mybatis.domain.LogType.INJECTBASEDATA;
+
 /**
  * Created by zhikunsun on 17/9/24.
  */
@@ -100,6 +102,7 @@ public class BaseDayCommand implements Command {
         stockInjectLogDO.setDate(date);
         stockInjectLogDO.setInjectTime(new Date());
         stockInjectLogDO.setInjectNum(num);
+        stockInjectLogDO.setType((byte) INJECTBASEDATA.getType());
         stockInjectLogDAO.insert(stockInjectLogDO);
     }
 

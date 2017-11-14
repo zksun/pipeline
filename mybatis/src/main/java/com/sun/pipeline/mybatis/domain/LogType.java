@@ -4,7 +4,7 @@ package com.sun.pipeline.mybatis.domain;
  * Created by zhikunsun on 2017/11/14.
  */
 public enum LogType {
-    injectBaseData(1);
+    INJECTBASEDATA(1);
     int type;
 
     LogType(int type) {
