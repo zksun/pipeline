@@ -158,6 +158,12 @@ public class InjectDataServiceImpl implements InjectDataService {
         if (null != files && !files.isEmpty()) {
             for (File day : files) {
                 Stock stock = new Stock(day.getParentFile().getName());
+
+                long l = hasInjected(stock.getStockCode(), convert(getRealTime(day.getName())));
+                if (l > 0) {
+                    continue;
+                }
+
                 StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
                 stockDayContainer.swallow(day);
                 try {
@@ -206,6 +212,7 @@ public class InjectDataServiceImpl implements InjectDataService {
     }
 
     private long hasInjected(String code, Date date) {
+
         Map<String, Object> map = new HashMap<>();
         map.put("code", code);
         map.put("day", date);

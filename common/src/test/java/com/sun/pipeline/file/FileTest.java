@@ -1,5 +1,6 @@
 package com.sun.pipeline.file;
 
+import com.sun.pipeline.util.internal.io.file.DefaultFileOperator;
 import com.sun.pipeline.util.internal.logging.InternalLogger;
 import com.sun.pipeline.util.internal.logging.InternalLoggerFactory;
 import org.apache.commons.io.FileUtils;
@@ -76,4 +77,6 @@ public class FileTest {
             return source - 660;
         }
     }
+
+
 }

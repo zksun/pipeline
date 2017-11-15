@@ -49,13 +49,15 @@ public class InjectDataTest {
     }
 
     @Test
-    public void allInjectCountTest(){
-        LocalDate start = LocalDate.parse("20170207", DateTimeFormatter.ofPattern("yyyyMMdd"));
+    public void allInjectCountTest() {
+        LocalDate start = LocalDate.parse("20170331", DateTimeFormatter.ofPattern("yyyyMMdd"));
         LocalDate end = LocalDate.parse("20171113", DateTimeFormatter.ofPattern("yyyyMMdd"));
         while (start.isBefore(end) || start.isEqual(end)) {
+            long startTime = System.currentTimeMillis();
             injectDataService.injectAllStockDayCount(start, start);
+            long endTime = System.currentTimeMillis();
+            System.out.println("end: " + start + " cost: " + (startTime - endTime));
             start = start.plusDays(1);
-            System.out.println("end: " + start);
         }
     }
 
