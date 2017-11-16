@@ -50,7 +50,7 @@ public class InjectDataTest {
 
     @Test
     public void allInjectCountTest() {
-        LocalDate start = LocalDate.parse("20170331", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate start = LocalDate.parse("20170405", DateTimeFormatter.ofPattern("yyyyMMdd"));
         LocalDate end = LocalDate.parse("20171113", DateTimeFormatter.ofPattern("yyyyMMdd"));
         while (start.isBefore(end) || start.isEqual(end)) {
             long startTime = System.currentTimeMillis();

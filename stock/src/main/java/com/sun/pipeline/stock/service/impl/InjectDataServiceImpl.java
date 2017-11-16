@@ -167,6 +167,7 @@ public class InjectDataServiceImpl implements InjectDataService {
                 StockDayContainer stockDayContainer = new StockDayContainer(stock, getRealTime(day.getName()));
                 stockDayContainer.swallow(day);
                 try {
+                    System.out.println("work in a stockDayContainer");
                     mainThreadPool.submit(new StockDayCountCommand(stockDayContainer, stockDayCountDAO)).get();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
